@@ -12,8 +12,8 @@ CS 109b, AC 209b, Stat 121b, or CSCI E-109b
 [Pavlos Protopapas](mailto:pavlos@seas.harvard.edu) (SEAS), [Mark Glickman](mailto:glickman@fas.harvard.edu) (Statistics), & [Chris Tanner](mailto:christanner@seas.harvard.edu) (SEAS)
 
 **Lectures:** Mon, Wed, & Fri 9‐10:15am<br/>
-**Sections:** TBD<br/>
-**Advanced Sections:** TBD<br/>
+**Sections:** Fri 10:30am (starting 3/5)<br/>
+**Advanced Sections:** Wed 12pm (starting 3/10)<br/>
 **Office Hours:** TBD
 
 **Prerequisites:** CS 109a, AC 209a, Stat 121a, or CSCI E-109a or the equivalent.
