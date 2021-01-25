@@ -56,9 +56,9 @@ pre {
 
 <strong>Lectures: Mon </strong>, <strong>Wed</strong>, & <strong>Fri</strong> 9:00‐10:15 am 
 <br/>
-<strong>Sections: TBD </strong> 
+<strong>Sections: Fri 10:30 am (starting 3/5) </strong> 
 <br/>
-<strong>Advanced Sections: TBD </strong>
+<strong>Advanced Sections: Weds 12 pm (starting 3/10) </strong>
 <br/>
 <strong>Office Hours: TBD </strong>
 <br/>
