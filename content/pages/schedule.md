@@ -1,11 +1,11 @@
 Title: Schedule
 Slug: schedule
-Date: 2021-01-25
+Date: 2021-01-29
 
 
 |Date (Mon)|Lecture (Mon)|Lecture (Wed)|Lecture (Fri)|Advanced Section (Wed)|Assignment (R:Released Wed - D:Due Wed)|
 |-----|-----|-----|-----|-----|-----|
-|1/25|Lecture 1: Introduction + Smoothers & Additive 1/3|Lecture 2: Smoothers & Additive 2/3|Lecture 3: Environment Setup & Smoothers (lab-like)|||
+|1/25|Lecture 1: Introduction + Smoothers & Additive 1/3|Lecture 2: Smoothers & Additive 2/3|[Lecture 3: Environment Setup & Smoothers (lab-like)]({filename}/lectures/lecture03/index.md)|||
 |2/1|Lecture 4: Smoothers & Additive 3/3|Lecture 5: Cluster 1/2|Lecture 5.5: THURS: pyGam & csaps (lab-like) {NOTE! moved to Thurs because Fri is a wellness day} ||R:HW1 |
 |2/8|Lecture 6: Cluster 2/2|Lecture 7: Bayesian 1/4|Lecture 8: Clustering (lab-like)||R:HW2 - D:HW1|
 |2/15|No Lecture (Holiday)|Lecture 9: Bayesian 2/4|Lecture 10: Review of PDFs (lab-like)||R:HW3 - D:HW2|

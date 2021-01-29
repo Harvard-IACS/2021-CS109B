@@ -9,9 +9,13 @@
     />
     <meta
       name="description"
-      content="Spring 2021 - Harvard University, Institute for Applied Computational Science. "
+      content="Spring 2021 - Harvard University, Institute for Applied Computational Science. Lecture 3: Setup and Review of statsmodels"
     />
     <meta name="author" content="Pavlos Protopapas" />
+<meta
+  name="keywords"
+  content="class repo, conda, FAS onDemand, Setup, statsmodels"
+/>
 
     <!-- Bootstrap CSS -->
     <link
@@ -39,17 +43,17 @@
 
     <link
       rel="stylesheet"
-      href="./style/tipuesearch/tipuesearch.css"
+      href="../../style/tipuesearch/tipuesearch.css"
     />
 
     <link
       rel="shortcut icon"
       type="image/x-icon"
-      href="./style/images/favicon.ico"
+      href="../../style/images/favicon.ico"
     />
-    <link rel="stylesheet" href="./style/css/iacs.css" />
+    <link rel="stylesheet" href="../../style/css/iacs.css" />
 
-    <title>Harvard CS109B | Search Results</title>
+    <title>Harvard CS109B | Lecture 3: Setup and Review of statsmodels</title>
 
     <style>
       .navbar {
@@ -60,10 +64,10 @@
   <body>
 <nav class="navbar navbar-dark navbar-expand-md">
   <div class="container">
-    <a class="navbar-brand" href=".">
+    <a class="navbar-brand" href="../..">
       <img
         class="navbar-brand-logo"
-        src="./style/images/logo.png"
+        src="../../style/images/logo.png"
       />
       <h3 class="course-title">CS109B</h3>
     </a>
@@ -82,20 +86,20 @@
     <div class="collapse navbar-collapse" id="navbarsDefault">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="./pages/syllabus.html">Syllabus</a>
+          <a class="nav-link" href="../../pages/syllabus.html">Syllabus</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./pages/schedule.html">Schedule</a>
+          <a class="nav-link" href="../../pages/schedule.html">Schedule</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./pages/materials.html">Materials</a>
+          <a class="nav-link" href="../../pages/materials.html">Materials</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./pages/faq.html">FAQ</a>
+          <a class="nav-link" href="../../pages/faq.html">FAQ</a>
         </li>
         <form
           class="form-inline my-2"
-          action="./search.html"
+          action="../../search.html"
           onsubmit="return validateForm(this.elements['q'].value);"
         >
           <div class="input-group input-group-sm">
@@ -119,18 +123,30 @@
   <!-- .container -->
 </nav>
     <main id="content" class="container">
-<div class="entry-content">
-
-  <form>
-    <input type="text" size="60" id="tipue_search_input" readonly="readonly">
-  </form>
-
-  <br />
-  <br />
-  <div id="tipue_search_content"></div>
-
-</div>
-    </main>
+ <h1>Lecture 3: Setup and Review of statsmodels</h1>
+<p>
+  Key Word(s):   <a href="../../pages/materials.html#class repo">class repo</a
+  >,   <a href="../../pages/materials.html#conda">conda</a
+  >,   <a href="../../pages/materials.html#FAS onDemand">FAS onDemand</a
+  >,   <a href="../../pages/materials.html#Setup">Setup</a
+  >,   <a href="../../pages/materials.html#statsmodels">statsmodels</a
+  > </p>
+ <br />
+<hr />
+ <h1>YML File</h1>
+<ul>
+<li><a href="../../lectures/lecture03/cs109b.yml">cs109b.yml</a></li>
+</ul>
+<h1>Notebooks</h1>
+<ul>
+<li><a href="../../lectures/lecture03/cs109b_lab1_A_intro_2021.ipynb">Lecture 3: Introduction and Setup [Notebook]</a></li>
+<li><a href="../../lectures/lecture03/cs109b_lab1_B_statsmod_2021.ipynb">Lecture 3: Review of statsmodels, numpy, and linear algebra [Notebook]</a></li>
+</ul>
+<h1>Data</h1>
+<ul>
+<li>data/<a href="../../lectures/lecture03/data/diabetes.csv">diabetes.csv</a></li>
+<li>data/<a href="../../lectures/lecture03/data/kyphosis.csv">kyphosis.csv</a></li>
+</ul>     </main>
 
 <footer class="footer">
   <div class="container">
@@ -150,16 +166,5 @@
       integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
       crossorigin="anonymous"
     ></script>
-
-
-<script type="text/javascript" src="./tipuesearch_content.js"></script>
-<script type="text/javascript" src="./style/tipuesearch/tipuesearch_set.js"></script>
-<script type="text/javascript" src="./style/tipuesearch/tipuesearch.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-      $('#tipue_search_input').tipuesearch({ 'show': 8 });
-    });
-</script>
   </body>
 </html>
