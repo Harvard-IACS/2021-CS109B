@@ -10,8 +10,8 @@ Date (Mon),Lecture (Mon),Lecture (Wed),Lecture (Fri),Advanced Section (Wed),Assi
 3/22,"Lecture 22: NLP 1/4 (embeddings, word2vec)",Lecture 23: NLP 2/4 (n-gram LMs),Lecture 24: NLP 3/4 (Transformers II),,R:HW6 -  D:HW5
 3/29,Lecture 25: NLP 4/4 (Transformers II),No Lecture (Wellness Day),Lecture 26: Autoencoder 1/2,Advanced Section 3: Language Models,
 4/5,Lecture 27: Autoencoder 2/2,Lecture 28: Variational Autoencoder,Lecture 29: GANS 1/2,Advanced Section 4: Inference in NN,R:HW7 - D:HW6
-4/12,Lecture 30: GANS 2/2,Lecture 31: Reinforcement Learning - Basics 1,Lecture 32: Reinforcement Learning - Basics 2,Advanced Section 5: GANS,R:HW8 - D:HW7
-4/19,Lecture 33: Deep Reinforcement Learning,Module: Lecture Domain,Module: Problem Background,Advanced Section:6 Reinforcement Learning,D: HW8
+4/12,Lecture 30: GANS 2/2,Lecture 31: Reinforcement Learning - Basics 1,Lecture 32: Reinforcement Learning - Basics 2,Advanced Section 5: GANS,D:HW7
+4/19,Lecture 33: Deep Reinforcement Learning,Module: Lecture Domain,Module: Problem Background,Advanced Section:6 Reinforcement Learning,
 4/26,,,,,
 5/3,,,,Reading Period,
 5/10,,Module: Final Presentations,,Finals Week,
