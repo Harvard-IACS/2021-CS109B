@@ -1,0 +1,41 @@
+name: cs109b
+
+channels:
+    - conda-forge
+
+dependencies:
+    - certifi
+    - depfinder
+    - gdown
+    - imageio
+    - ipython
+    - jupyterlab
+    - mamba
+    - matplotlib
+    - mkl-service
+    - numpy
+    - opencv
+    - pandas
+    - pillow
+    - pip
+    - pygam
+    - pymc3
+    - requests
+    - scikit-learn
+    - scipy
+    - seaborn
+    - statsmodels
+    - sympy
+    - tensorflow>=2.3
+    - theano
+    - urllib3
+
+    - pip:
+        - csaps
+        - gap_stat
+        - gridworld
+        - helpers
+        - iacs-cli
+        - tensorflow_addons
+        - tensorflow_datasets
+        - tf_keras_vis
