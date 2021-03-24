@@ -1,14 +1,10 @@
-Title: Lecture 8: Clustering in Python
+Title: Lecture 8 - Clustering in Python (Lab)
 Category: lectures
-Date: 2021-02-12
-Author: Eleni Kaxiras
 Slug: lecture08
-Tags: Clustering
+Author: Mark Glickman, Pavlos Protopapas, and Chrris Tanner
+Date: 1900-01-01
+Tags: ??
 
-
-# Notebooks
-- [Lecture 8: Clustering in Python [Notebook]]({static}notes/cs109b_lab03_clustering_2021.ipynb)
-# Data
-- data/[faithful.csv]({static}data/faithful.csv)
-- data/[multishapes.csv]({static}data/multishapes.csv)
-- data/[USArrests2.csv]({static}data/USArrests2.csv)
+## Exercises
+- [Lecture 8: Pre-Class Notebook (Notebook)]({filename}notebook/lecture20_ex1_solution.ipynb)
+- [Lecture 8: Review of statsmodels, numpy, and linear algebra (Notebook)]({filename}notebook/cs109b_lab03_clustering_2021.ipynb)
