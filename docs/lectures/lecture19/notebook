@@ -1,0 +1,520 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Title :\n",
+    "Transfer Learning\n",
+    "\n",
+    "## Description :\n",
+    "The goal of this exercise is to use Transfer Learning to achieve near-perfect accuracy for a highly customized task. The task at hand is to distinguish images of people with Sun Glasses or Hat. \n",
+    "\n",
+    "<img src=\"../fig/fig1.png\" style=\"width: 500px;\">\n",
+    "\n",
+    "## Instructions :\n",
+    "\n",
+    "- Use the helper code to get the image data.\n",
+    "- Use the `ImageDataGenerator` function to process the image data with a validation_split of 0.2.\n",
+    "- Create a train and validation generator with `flow_from_directory`.\n",
+    "- Ensure that the processed input images are correctly split into the train and validation sets using `flow_from_directory`. \n",
+    "- Use the Keras Functional API to call the MobileNet architecture with imagenet weights.\n",
+    "- Add an appropriate number of dense layers to the top of the called architecture.\n",
+    "- The output layers consists of 2 nodes with `softmax` activation.\n",
+    "- Take a quick look at the summary to understand your model architecture.\n",
+    "- Freeze the first 10 layers to ensure it does not train and make the remaining layers trainable.\n",
+    "- Compile the model and fit on the train and validation data.\n",
+    "- Take a look at how your model performs by predicting on unseen images using the helper code.\n",
+    "\n",
+    "<img src=\"../fig/fig2.png\" style=\"width: 500px;\">\n",
+    "\n",
+    "## Hints :\n",
+    "\n",
+    "<a href=\"https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator\" target=\"_blank\">tf.keras.ImageDataGenerator()</a> Generate batches of tensor image data with real-time data augmentation.\n",
+    "\n",
+    "<a href=\"https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator\" target=\"_blank\">ImageDataGenerator.flow_from_directory()</a> Takes the path to a directory & generates batches of augmented data.\n",
+    "\n",
+    "<a href=\"https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNet\" target=\"_blank\">tf.keras.applications.MobileNet()</a> Instantiates the MobileNet architecture.\n",
+    "\n",
+    "<a href=\"https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense\" target=\"_blank\">tf.keras.layers.Dense()</a> Returns a regular densely-connected NN layer.\n",
+    "\n",
+    "<a href=\"https://keras.io/api/models/model/#model-class\" target=\"_blank\">keras.Model()</a> Model groups layers into an object with training and inference features.\n",
+    "\n",
+    "<a href=\"https://www.tensorflow.org/js/guide/models_and_layers#model_summary\" target=\"_blank\">model.summary()</a> Print a useful summary of the model.\n",
+    "\n",
+    "<a href=\"https://www.tensorflow.org/api_docs/python/tf/keras/Model#compile\" target=\"_blank\">model.compile()</a> Configures the model for training.\n",
+    "\n",
+    "<a href=\"https://www.tensorflow.org/api_docs/python/tf/keras/Model#fit\" target=\"_blank\">model.fit()</a> Trains the model for a fixed number of epochs (iterations on a dataset).\n",
+    "\n",
+    "<a href=\"https://www.tensorflow.org/api_docs/python/tf/keras/layers/Layer\" target=\"_blank\">layer.trainable()</a> To set layers to trainable."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<a href=\"https://colab.research.google.com/drive/1kGoHKlYNZ1bbltYD8YFEP8qXmd2F7Eu3?usp=sharing\" target=\"_blank\" >\n",
+    "  <img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/>\n",
+    "\n",
+    "  **(Note: This notebook will not run on Ed. Please click the button above to run in Google Colab)**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Importing necessary packages and libraries\n",
+    "\n",
+    "import tensorflow.keras as keras\n",
+    "from tensorflow.keras import backend as K\n",
+    "from tensorflow.keras.layers import Dense, Activation\n",
+    "from tensorflow.keras.optimizers import Adam\n",
+    "from tensorflow.keras.metrics import categorical_crossentropy\n",
+    "from tensorflow.keras.preprocessing.image import ImageDataGenerator\n",
+    "from tensorflow.keras.preprocessing import image\n",
+    "from tensorflow.keras.models import Model\n",
+    "from tensorflow.keras.applications import imagenet_utils\n",
+    "from tensorflow.keras.layers import Dense,GlobalAveragePooling2D\n",
+    "from tensorflow.keras.applications import MobileNet\n",
+    "from tensorflow.keras.applications.mobilenet import preprocess_input\n",
+    "import numpy as np\n",
+    "import os\n",
+    "from IPython.display import Image\n",
+    "from tensorflow.keras.optimizers import Adam\n",
+    "import matplotlib.pyplot as plt\n",
+    "import matplotlib.image as mpimg\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# resized\n",
+    "!wget https://cs109b-course-data.s3.amazonaws.com/Lecture18/resized_lecture18.zip\n",
+    "!unzip -qq resized_lecture18.zip"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "DATA_DIR = '.'"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### ⏸ If you were to build a custom classifier using Transfer Learning, which pre-trained model would you use:\n",
+    "**(Please answer this in quiz)**\n",
+    "\n",
+    "#### A. VGG16 model trained on medical images\n",
+    "#### B. MobileNet model trained on ImageNet\n",
+    "#### C. InceptionNet model trained on Landscape images"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "### edTest(test_chow1) ###\n",
+    "# Submit an answer choice as a string below (eg. if you choose option C, put 'C')\n",
+    "answer1 = '___'"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Get dataset"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "### edTest(test_split) ###\n",
+    "\n",
+    "# Path of image data\n",
+    "# data_path = os.path.join(DATA_DIR, 'images/train')\n",
+    "data_path = os.path.join(DATA_DIR, 'resized_lecture18/train')\n",
+    "\n",
+    "\n",
+    "# Use the `ImageDataGenerator` function from keras to generate new images based on our existing ones\n",
+    "# Mention the preprocessing function as mobilenet's preprocess_input and specify a validation split of 20%\n",
+    "train_datagen=ImageDataGenerator(___) \n",
+    "\n",
+    "# Build your train_generator by specifying the directory using the data_path variable defined above\n",
+    "# Mention target size, color mode, batch_size, subset as 'train' and shuffle = True\n",
+    "train_generator=train_datagen.flow_from_directory(___)\n",
+    "\n",
+    "# Build your validation_generator similar to the previous step \n",
+    "# Specifying using the data_path variable defined above with subset as 'validation'\n",
+    "validation_generator=train_datagen.train_generator=train_datagen.flow_from_directory(___)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Mobilenet plug and play"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Lets now use MobileNet as it is quite lightweight (17Mb), freeze the base layers and lets add and train the top few layers. Note only two classifiers."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Use the mobilenet architecture as a starting point for our base model \n",
+    "\n",
+    "# Import the mobilenet model with pre-trained imagenet weights\n",
+    "# Discard the last 1000 neuron layer ie. the final fully connected layer\n",
+    "base_model=MobileNet(___) "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "x=base_model.output\n",
+    "\n",
+    "x=GlobalAveragePooling2D()(x)\n",
+    "\n",
+    "# On top of mobile net, add a few dense layers with 'relu' activation\n",
+    "\n",
+    "# Using functional API, add a dense layer with 1024 neurons \n",
+    "x=Dense(___)(x)\n",
+    "\n",
+    "# Add a dense layer with 512 neurons\n",
+    "x=Dense(___)(x)\n",
+    "\n",
+    "# Add a final layer with 2 neurons and softmax activation \n",
+    "preds=Dense(___)(x) "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Using the functional API of keras, specify the input from the base model and the output as `preds` described above\n",
+    "\n",
+    "model=Model(___) #specify the inputs and outputs\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### ⏸ When you used the pre-trained model in the exercise, did you use the entire pre-trained model (convolution layers and classification dense layers) with all the layers?\n",
+    "**(Please answer this in quiz)**\n",
+    "\n",
+    "#### A. True\n",
+    "#### B. False"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "### edTest(test_chow2) ###\n",
+    "# Submit an answer choice as a string below (eg. if you choose option C, put 'C')\n",
+    "answer2 = '___'"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We will use pre-trained weights as the model has been trained already on the Imagenet dataset. We ensure all the weights are non-trainable. We will only train the last few dense layers."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "### edTest(test_layers) ###\n",
+    "# For transfer learning, we need to freeze some layers. Below we freeze the first 10 layers\n",
+    "\n",
+    "# Freeze the first 10 layers of the network to be non-trainable\n",
+    "for layer in model.layers[:10]:\n",
+    "    ___\n",
+    "    "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Lets check the model architecture"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "### edTest(test_summary) ###\n",
+    "# Look at the summary of your model\n",
+    "model.___()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### ⏸ In the pre trained model from the exercise how many trainable params did you have?\n",
+    "\n",
+    "**(Please answer this in quiz)**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "### edTest(test_chow3) ###\n",
+    "# Submit an answer as 10,000 or 10000\n",
+    "answer3 = '___'"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now lets load the training data into the ImageDataGenerator. Specify path, and it automatically sends the data for training in batches, simplifying the code."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Compile the model. Now lets train it. Should take less than two minutes on a GTX1070 GPU."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Training the model"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# We now train our model, but first we will compile it with an appropriate loss function and optimizer\n",
+    "\n",
+    "# Adam optimizer\n",
+    "# loss function will be categorical crossentropy\n",
+    "# evaluation metric will be accuracy\n",
+    "\n",
+    "model.compile(___)\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Fit the model using the step size for train and validation specified below\n",
+    "# Given the limited resources, please restrict the number of epochs to less than 5\n",
+    "\n",
+    "step_size_train=train_generator.n//train_generator.batch_size\n",
+    "step_size_validation=validation_generator.n//validation_generator.batch_size\n",
+    "\n",
+    "model.fit(___)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Model is now trained. Now lets test some independent input images to check the predictions."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Inference on unseen data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# A helper function that takes a standard image and converts it into a tensor that can be used by the model\n",
+    "\n",
+    "def load_image(img_path, show=False):\n",
+    "\n",
+    "    img = image.load_img(img_path, target_size=(224, 224))\n",
+    "    img_tensor = image.img_to_array(img)                    # (height, width, channels)\n",
+    "    img_tensor = np.expand_dims(img_tensor, axis=0)         # (1, height, width, channels), add a dimension because the model expects this shape: (batch_size, height, width, channels)\n",
+    "    img_tensor = preprocess_input(img_tensor)               # imshow expects values in the range [0, 1]\n",
+    "\n",
+    "    if show:\n",
+    "        plt.imshow(img_tensor[0])                           \n",
+    "        plt.axis('off')\n",
+    "        plt.show()\n",
+    "\n",
+    "    return img_tensor"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# # We specify the paths of the six images \n",
+    "\n",
+    "# We specify the paths of the six images \n",
+    "#31.jpg\t458.jpg  571.jpg  667.jpg  672.jpg\n",
+    "# First set of images\n",
+    "img_path1 = os.path.join(DATA_DIR, 'resized_lecture18/test/31.jpg')\n",
+    "img_path2 = os.path.join(DATA_DIR, 'resized_lecture18/test/458.jpg')\n",
+    "img_path3 = os.path.join(DATA_DIR, 'resized_lecture18/test/571.jpg')\n",
+    "\n",
+    "\n",
+    "# Second set of images\n",
+    "img_path4 = os.path.join(DATA_DIR, 'resized_lecture18/test/rashmi.jpg')\n",
+    "img_path5 = os.path.join(DATA_DIR, 'resized_lecture18/test/pavlos.jpg')\n",
+    "img_path6 = os.path.join(DATA_DIR, 'resized_lecture18/test/shivas.jpg')\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Helper function that nicely predicts the class along with the input image\n",
+    "\n",
+    "def prediction(img_loc,ax):\n",
+    "    new_image = load_image(img_loc)\n",
+    "    pred = model.predict(new_image)\n",
+    "    classmap = {v:k for k,v in (train_generator.class_indices).items()}\n",
+    "    plot_img = mpimg.imread(img_loc);\n",
+    "    ax.imshow(plot_img, vmin=0, vmax=255)\n",
+    "    ax.set_title(f'Prediction: {classmap[pred.argmax(-1)[0]]} \\n (with confidence: {str(pred[0][pred.argmax(-1)][0])[:4]})'  ,fontsize=18)\n",
+    "    ax.axis('off')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Make predictions on first set of images defined above that were never shown to the model before\n",
+    "fig, axes = plt.subplots(1,3,figsize=(12,6))\n",
+    "\n",
+    "# For each prediction mention the axes\n",
+    "prediction(img_path1, axes[0])\n",
+    "prediction(img_path2, axes[1])\n",
+    "prediction(img_path3, axes[2])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Make predictions on second set of images defined above that were never shown to the model before\n",
+    "fig, axes = plt.subplots(1,3,figsize=(15,5))\n",
+    "\n",
+    "# # Call the prediction function defined above for this\n",
+    "# # For each prediction mention the axes\n",
+    "# ___\n",
+    "# ___\n",
+    "# ___\n",
+    "\n",
+    "# For each prediction mention the axes\n",
+    "# For each prediction mention the axes\n",
+    "prediction(img_path4, axes[0])\n",
+    "prediction(img_path5, axes[1])\n",
+    "prediction(img_path6, axes[2])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Mindchow 🍲\n",
+    "\n",
+    "Go back and change the number of trainable parameters. How does it affect your network performance?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "*Your answer here*"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 1
+}
