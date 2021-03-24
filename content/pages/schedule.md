@@ -13,9 +13,9 @@ Date: 2021-03-24
 |3/1|No Lecture (Wellness Day)|[Lecture 14: CNN - Basics]({filename}/lectures/lecture14/index.md)|Lecture 15: CNN - Pooling & Structure||R: HW4 - D: HW3|
 |3/8|Lecture 16: CNN - Backprop, Receptive Fields, etc.|Lecture 17: CNN - Saliency Maps & SotA|Lecture 18: Transfer Learning|[Advanced Section 1: Segmentation Techniques, YOLO, Unet, & M-RCNN]({filename}/a-sections/a-sec01/index.md)||
 |3/15|Lecture 19:  RNN 1/3|Lecture 20: RNN 2/3 (LSTMs)|Lecture 21: RNN 3/3|[Advanced Section 2: Recurrent Neural Networks and Reservoir Computing]({filename}/a-sections/a-sec02/index.md)|R:HW5 - D:HW4|
-|3/22|[Lecture 22: NLP 1/4 (n-gram LMs)]({filename}/lectures/lecture22/index.md)|Lecture 23: NLP 2/4 (embeddings, word2vec)|Lecture 24: NLP 3/4 (Transformers I)||R:HW6 -  D:HW5|
-|3/29|Lecture 25: NLP 4/4 (Transformers II)|No Lecture (Wellness Day)|Lecture 26: Autoencoder 1/2|Advanced Section 3: Language Models||
-|4/5|Lecture 27: Autoencoder 2/2|Lecture 28: Variational Autoencoder|Lecture 29: GANS 1/2|Advanced Section 4: Inference in NN|R:HW7 - D:HW6|
+|3/22|[Lecture 22: NLP 1/4 (n-gram LMs)]({filename}/lectures/lecture22/index.md)|Lecture 23: NLP 2/4 (embeddings, word2vec)|[Lecture 24: NLP 3/4 (Transformers I)]({filename}/lectures/lecture23/index.md)|Advanced Section 3: Word2Vec|R:HW6 -  D:HW5|
+|3/29|Lecture 25: NLP 4/4 (Transformers II)|No Lecture (Wellness Day)|Lecture 26: Autoencoder||
+|4/5|Lecture 27: Variational Autoencoder 1/2|Lecture 28: Variational Autoencoder 2/2|Lecture 29: GANS 1/2|Advanced Section 4: Inference in NN||R:HW7 - D:HW6|
 |4/12|Lecture 30: GANS 2/2|Lecture 31: Reinforcement Learning - Basics 1|Lecture 32: Reinforcement Learning - Basics 2|Advanced Section 5: GANS|
 |4/19|Lecture 33: Deep Reinforcement Learning|Module: Lecture Domain|Module: Problem Background|Advanced Section:6 Reinforcement Learning|D:HW7|
 |4/26||||||
