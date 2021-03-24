@@ -2,7 +2,7 @@ Title: Lecture 1 - Splines, Smoothers, and GAMs (part 1)
 Category: lectures
 Slug: lecture01
 Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner
-Date: 1900-01-01
+Date: 2021-01-25
 Tags: ??
 
 ## Slides

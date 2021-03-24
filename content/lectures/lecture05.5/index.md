@@ -2,7 +2,7 @@ Title: Lecture 5.5 - Smoothers, pyGAM, csaps
 Category: lectures
 Slug: lecture05.5
 Author: Mark Glickman, Pavlos Protopapas, and Chrris Tanner
-Date: 1900-01-01
+Date: 2021-02-03
 Tags: ??
 
 ## Exercises

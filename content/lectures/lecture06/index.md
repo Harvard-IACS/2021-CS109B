@@ -2,7 +2,7 @@ Title: Lecture 6 - Unsupervised learning, cluster analysis (part 2)
 Category: lectures
 Slug: lecture06
 Author: Mark Glickman, Pavlos Protopapas, and Chrris Tanner
-Date: 1900-01-01
+Date: 2021-02-08
 Tags: ??
 
 ## Exercises

@@ -2,7 +2,7 @@ Title: Lecture 8 - Clustering in Python (Lab)
 Category: lectures
 Slug: lecture08
 Author: Mark Glickman, Pavlos Protopapas, and Chrris Tanner
-Date: 1900-01-01
+Date: 2021-02-12
 Tags: ??
 
 ## Exercises

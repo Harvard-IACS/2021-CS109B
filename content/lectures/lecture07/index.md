@@ -2,7 +2,7 @@ Title: Lecture 7 - Bayesian statistics (part 1)
 Category: lectures
 Slug: lecture07
 Author: Mark Glickman, Pavlos Protopapas, and Chrris Tanner
-Date: 1900-01-01
+Date: 2021-02-10
 Tags: ??
 
 ## Exercises

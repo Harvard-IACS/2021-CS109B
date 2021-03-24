@@ -2,7 +2,7 @@ Title: Lecture 4 - Splines, Smoothers, and GAMs (part 3)
 Category: lectures
 Slug: lecture04
 Author: Mark Glickman, Pavlos Protopapas, and Chrris Tanner
-Date: 1900-01-01
+Date: 2021-02-01
 Tags: ??
 
 ## Exercises
