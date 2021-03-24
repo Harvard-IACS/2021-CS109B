@@ -1,14 +1,12 @@
-Title: Lecture 14: CNN1
+Title: Lecture 14 - Π CNNs basics
 Category: lectures
-Date: 2021-02-16
-Author: Pavlos Protopapas
 Slug: lecture14
+Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner
+Date: 2021-03-03
 Tags: Convolutional Neural Network, Neural Networks, CNNs, MPL
 
-
 ## Slides
-- [Lecture 14 Slides [PPTX]]({static}slides/CNN1.pptx)
-- [Lecture 14 Slides [PDF]]({static}slides/CNN1.pdf)
-
+- [Lecture 14 : CNNs1 - Basics (PDF)]({attach}presentation/CNN1.pdf)
 
 ## Exercises
+- [Lecture 14: Feed-Forward Neural Networks vs Convolution Neural Networks (Notebook)]({filename}notebook/CNNvsFFNN_scaffold.ipynb)
