@@ -13,6 +13,7 @@ from tensorflow.python.keras.utils.layer_utils import count_params
 from transformers import TFBertForSequenceClassification
 from sklearn.metrics import f1_score
 from sklearn.metrics.pairwise import cosine_similarity
+import matplotlib.ticker as mticker
 
 def download_file(packet_url, base_path="", extract=False, headers=None):
     if base_path != "":
@@ -86,15 +87,27 @@ def evaluate_save_model(model, test_data, training_results, execution_time, lear
     axs = fig.add_subplot(1, 2, 1)
     axs.set_title('Loss')
     # Plot all metrics
-    for metric in ["loss", "val_loss"]:
-        axs.plot(np.arange(0, num_epochs), model_train_history[metric], label=metric)
+
+    for metric in ["loss", "val_loss"]:        
+        axs.plot(np.arange(0, num_epochs,1), model_train_history[metric], label=metric)
+        axs.xaxis.set_major_locator(mticker.MaxNLocator(num_epochs))
+        ticks_loc = axs.get_xticks().tolist()
+        axs.xaxis.set_major_locator(mticker.FixedLocator(ticks_loc))
+        label_format = '{:,.0f}'
+        axs.set_xticklabels([label_format.format(x) for x in ticks_loc]);
+        
     axs.legend()
 
     axs = fig.add_subplot(1, 2, 2)
     axs.set_title('Accuracy')
     # Plot all metrics
     for metric in ["accuracy", "val_accuracy"]:
-        axs.plot(np.arange(0, num_epochs), model_train_history[metric], label=metric)
+        axs.plot(np.arange(0, num_epochs,1), model_train_history[metric], label=metric)
+        axs.xaxis.set_major_locator(mticker.MaxNLocator(num_epochs))
+        ticks_loc = axs.get_xticks().tolist()
+        axs.xaxis.set_major_locator(mticker.FixedLocator(ticks_loc))
+        label_format = '{:,.0f}'
+        axs.set_xticklabels([label_format.format(x) for x in ticks_loc]);
     axs.legend()
 
     plt.show()
