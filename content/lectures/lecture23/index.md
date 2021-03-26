@@ -1,14 +1,12 @@
-Title: Lecture 24: Language Representations
+Title: Lecture 23 - 🔢 Language Representations
 Category: lectures
-Date: 2021-03-24
-Author: Chris Tanner
 Slug: lecture23
-Tags: Language Representations, Word Embeddings
-
+Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner
+Date: 2021-03-24
+Tags: ??
 
 ## Slides
-- [Lecture 23 Language Representations Slides [PPTX]]({static}slides/Lecture23_Language_Representations.pptx)
-- [Lecture 23 Language Representations Slides [PDF]]({static}slides/Lecture23_Language_Representations.pdf)
+- [Lecture 23: Representing Language (PDF)]({attach}presentation/Lecture23_Language_Representations.pdf)
 
 ## Exercises
-
+- [Lecture 23: GloVe embeddings (Notebook)]({filename}notebook/L23_Ex1_student.ipynb)

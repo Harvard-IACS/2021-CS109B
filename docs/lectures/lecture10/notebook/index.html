@@ -1,0 +1,3277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+            name="description"
+            content="Spring 2021 - Harvard University, Institute for Applied Computational Science. Lecture 10 - Bayes. PyMC3"
+    />
+    <meta name="author" content="Pavlos Protopapas"/>
+    <meta
+            name="keywords"
+            content="??"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+            integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+            crossorigin="anonymous"
+    />
+
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+            integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+            crossorigin="anonymous"
+    />
+
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Roboto:300,400,700"
+            rel="stylesheet"
+    />
+
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"
+    />
+
+    <link
+            rel="stylesheet"
+            href="../../../style/tipuesearch/tipuesearch.css"
+    />
+
+    <link
+            rel="shortcut icon"
+            type="image/x-icon"
+            href="../../../style/images/favicon.ico"
+    />
+    <link rel="stylesheet" href="../../../style/css/iacs.css"/>
+
+    <title>Harvard CS109B | Lecture 10 - Bayes. PyMC3</title>
+
+    <style>
+        .navbar {
+            background-color: #c90016
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-dark navbar-expand-md">
+    <div class="container">
+        <a class="navbar-brand" href="../../..">
+            <img
+                    class="navbar-brand-logo"
+                    src="../../../style/images/logo.png"
+            />
+            <h3 class="course-title">CS109B</h3>
+        </a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarsDefault"
+                aria-controls="navbarsDefault"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsDefault">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../pages/syllabus.html">Syllabus</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../pages/calendar.html">Calendar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../pages/schedule.html">Schedule</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../pages/materials.html">Materials</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../pages/projects.html">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../../pages/faq.html">FAQ</a>
+                </li>
+                <form
+                        class="form-inline my-2"
+                        action="../../../search.html"
+                        onsubmit="return validateForm(this.elements['q'].value);"
+                >
+                    <div class="input-group input-group-sm">
+                        <input
+                                class="form-control"
+                                type="text"
+                                name="q"
+                                placeholder="Search Topic"
+                        />
+                        <div class="input-group-append">
+                            <button class="btn btn-default" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </ul>
+        </div>
+        <!-- .collapse navbar-collapse -->
+    </div>
+    <!-- .container -->
+</nav>
+<main id="content" class="container">
+    <div>
+        <div class="float-left">
+            <p>
+                Key Word(s): <a href="../../../pages/materials.html#??"
+            >??</a
+            ></p>
+        </div>
+        <div class="float-right">
+            <a href="../../../lectures/lecture10/notebook/cs109b_lect10_bayes_1_2021_students.ipynb">
+                Download Notebook <i class="fas fa-download"></i>
+            </a>
+        </div>
+    </div>
+    <br/>
+    <hr/>
+    <style type="text/css">/*!
+*
+* IPython notebook
+*
+*/
+    /* CSS font colors for translated ANSI escape sequences */
+    /* The color values are a mix of
+       http://www.xcolors.net/dl/baskerville-ivorylight and
+       http://www.xcolors.net/dl/euphrasia */
+    .ansi-black-fg {
+        color: #3E424D;
+    }
+
+    .ansi-black-bg {
+        background-color: #3E424D;
+    }
+
+    .ansi-black-intense-fg {
+        color: #282C36;
+    }
+
+    .ansi-black-intense-bg {
+        background-color: #282C36;
+    }
+
+    .ansi-red-fg {
+        color: #E75C58;
+    }
+
+    .ansi-red-bg {
+        background-color: #E75C58;
+    }
+
+    .ansi-red-intense-fg {
+        color: #B22B31;
+    }
+
+    .ansi-red-intense-bg {
+        background-color: #B22B31;
+    }
+
+    .ansi-green-fg {
+        color: #00A250;
+    }
+
+    .ansi-green-bg {
+        background-color: #00A250;
+    }
+
+    .ansi-green-intense-fg {
+        color: #007427;
+    }
+
+    .ansi-green-intense-bg {
+        background-color: #007427;
+    }
+
+    .ansi-yellow-fg {
+        color: #DDB62B;
+    }
+
+    .ansi-yellow-bg {
+        background-color: #DDB62B;
+    }
+
+    .ansi-yellow-intense-fg {
+        color: #B27D12;
+    }
+
+    .ansi-yellow-intense-bg {
+        background-color: #B27D12;
+    }
+
+    .ansi-blue-fg {
+        color: #208FFB;
+    }
+
+    .ansi-blue-bg {
+        background-color: #208FFB;
+    }
+
+    .ansi-blue-intense-fg {
+        color: #0065CA;
+    }
+
+    .ansi-blue-intense-bg {
+        background-color: #0065CA;
+    }
+
+    .ansi-magenta-fg {
+        color: #D160C4;
+    }
+
+    .ansi-magenta-bg {
+        background-color: #D160C4;
+    }
+
+    .ansi-magenta-intense-fg {
+        color: #A03196;
+    }
+
+    .ansi-magenta-intense-bg {
+        background-color: #A03196;
+    }
+
+    .ansi-cyan-fg {
+        color: #60C6C8;
+    }
+
+    .ansi-cyan-bg {
+        background-color: #60C6C8;
+    }
+
+    .ansi-cyan-intense-fg {
+        color: #258F8F;
+    }
+
+    .ansi-cyan-intense-bg {
+        background-color: #258F8F;
+    }
+
+    .ansi-white-fg {
+        color: #C5C1B4;
+    }
+
+    .ansi-white-bg {
+        background-color: #C5C1B4;
+    }
+
+    .ansi-white-intense-fg {
+        color: #A1A6B2;
+    }
+
+    .ansi-white-intense-bg {
+        background-color: #A1A6B2;
+    }
+
+    .ansi-default-inverse-fg {
+        color: #FFFFFF;
+    }
+
+    .ansi-default-inverse-bg {
+        background-color: #000000;
+    }
+
+    .ansi-bold {
+        font-weight: bold;
+    }
+
+    .ansi-underline {
+        text-decoration: underline;
+    }
+
+    /* The following styles are deprecated an will be removed in a future version */
+    .ansibold {
+        font-weight: bold;
+    }
+
+    .ansi-inverse {
+        outline: 0.5px dotted;
+    }
+
+    /* use dark versions for foreground, to improve visibility */
+    .ansiblack {
+        color: black;
+    }
+
+    .ansired {
+        color: darkred;
+    }
+
+    .ansigreen {
+        color: darkgreen;
+    }
+
+    .ansiyellow {
+        color: #c4a000;
+    }
+
+    .ansiblue {
+        color: darkblue;
+    }
+
+    .ansipurple {
+        color: darkviolet;
+    }
+
+    .ansicyan {
+        color: steelblue;
+    }
+
+    .ansigray {
+        color: gray;
+    }
+
+    /* and light for background, for the same reason */
+    .ansibgblack {
+        background-color: black;
+    }
+
+    .ansibgred {
+        background-color: red;
+    }
+
+    .ansibggreen {
+        background-color: green;
+    }
+
+    .ansibgyellow {
+        background-color: yellow;
+    }
+
+    .ansibgblue {
+        background-color: blue;
+    }
+
+    .ansibgpurple {
+        background-color: magenta;
+    }
+
+    .ansibgcyan {
+        background-color: cyan;
+    }
+
+    .ansibggray {
+        background-color: gray;
+    }
+
+    div.cell {
+        /* Old browsers */
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-box-align: stretch;
+        display: -moz-box;
+        -moz-box-orient: vertical;
+        -moz-box-align: stretch;
+        display: box;
+        box-orient: vertical;
+        box-align: stretch;
+        /* Modern browsers */
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border-width: 1px;
+        border-style: solid;
+        border-color: transparent;
+        width: 100%;
+        padding: 5px;
+        /* This acts as a spacer between cells, that is outside the border */
+        margin: 0px;
+        outline: none;
+        position: relative;
+        overflow: visible;
+    }
+
+    div.cell:before {
+        position: absolute;
+        display: block;
+        top: -1px;
+        left: -1px;
+        width: 5px;
+        height: calc(100% + 2px);
+        content: '';
+        background: transparent;
+    }
+
+    div.cell.jupyter-soft-selected {
+        border-left-color: #E3F2FD;
+        border-left-width: 1px;
+        padding-left: 5px;
+        border-right-color: #E3F2FD;
+        border-right-width: 1px;
+        background: #E3F2FD;
+    }
+
+    @media print {
+        div.cell.jupyter-soft-selected {
+            border-color: transparent;
+        }
+    }
+
+    div.cell.selected,
+    div.cell.selected.jupyter-soft-selected {
+        border-color: #ababab;
+    }
+
+    div.cell.selected:before,
+    div.cell.selected.jupyter-soft-selected:before {
+        position: absolute;
+        display: block;
+        top: -1px;
+        left: -1px;
+        width: 5px;
+        height: calc(100% + 2px);
+        content: '';
+        background: #42A5F5;
+    }
+
+    @media print {
+        div.cell.selected,
+        div.cell.selected.jupyter-soft-selected {
+            border-color: transparent;
+        }
+    }
+
+    .edit_mode div.cell.selected {
+        border-color: #66BB6A;
+    }
+
+    .edit_mode div.cell.selected:before {
+        position: absolute;
+        display: block;
+        top: -1px;
+        left: -1px;
+        width: 5px;
+        height: calc(100% + 2px);
+        content: '';
+        background: #66BB6A;
+    }
+
+    @media print {
+        .edit_mode div.cell.selected {
+            border-color: transparent;
+        }
+    }
+
+    .prompt {
+        /* This needs to be wide enough for 3 digit prompt numbers: In[100]: */
+        min-width: 14ex;
+        /* This padding is tuned to match the padding on the CodeMirror editor. */
+        padding: 0.4em;
+        margin: 0px;
+        font-family: monospace;
+        text-align: right;
+        /* This has to match that of the the CodeMirror class line-height below */
+        line-height: 1.21429em;
+        /* Don't highlight prompt number selection */
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        /* Use default cursor */
+        cursor: default;
+    }
+
+    @media (max-width: 540px) {
+        .prompt {
+            text-align: left;
+        }
+    }
+
+    div.inner_cell {
+        min-width: 0;
+        /* Old browsers */
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-box-align: stretch;
+        display: -moz-box;
+        -moz-box-orient: vertical;
+        -moz-box-align: stretch;
+        display: box;
+        box-orient: vertical;
+        box-align: stretch;
+        /* Modern browsers */
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        /* Old browsers */
+        -webkit-box-flex: 1;
+        -moz-box-flex: 1;
+        box-flex: 1;
+        /* Modern browsers */
+        flex: 1;
+    }
+
+    /* input_area and input_prompt must match in top border and margin for alignment */
+    div.input_area {
+        border: 1px solid #cfcfcf;
+        border-radius: 2px;
+        background: #f7f7f7;
+        line-height: 1.21429em;
+    }
+
+    /* This is needed so that empty prompt areas can collapse to zero height when there
+       is no content in the output_subarea and the prompt. The main purpose of this is
+       to make sure that empty JavaScript output_subareas have no height. */
+    div.prompt:empty {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    div.unrecognized_cell {
+        padding: 5px 5px 5px 0px;
+        /* Old browsers */
+        display: -webkit-box;
+        -webkit-box-orient: horizontal;
+        -webkit-box-align: stretch;
+        display: -moz-box;
+        -moz-box-orient: horizontal;
+        -moz-box-align: stretch;
+        display: box;
+        box-orient: horizontal;
+        box-align: stretch;
+        /* Modern browsers */
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    div.unrecognized_cell .inner_cell {
+        border-radius: 2px;
+        padding: 5px;
+        font-weight: bold;
+        color: red;
+        border: 1px solid #cfcfcf;
+        background: #eaeaea;
+    }
+
+    div.unrecognized_cell .inner_cell a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    div.unrecognized_cell .inner_cell a:hover {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    @media (max-width: 540px) {
+        div.unrecognized_cell > div.prompt {
+            display: none;
+        }
+    }
+
+    div.code_cell {
+        /* avoid page breaking on code cells when printing */
+    }
+
+    @media print {
+        div.code_cell {
+            page-break-inside: avoid;
+        }
+    }
+
+    /* any special styling for code cells that are currently running goes here */
+    div.input {
+        page-break-inside: avoid;
+        /* Old browsers */
+        display: -webkit-box;
+        -webkit-box-orient: horizontal;
+        -webkit-box-align: stretch;
+        display: -moz-box;
+        -moz-box-orient: horizontal;
+        -moz-box-align: stretch;
+        display: box;
+        box-orient: horizontal;
+        box-align: stretch;
+        /* Modern browsers */
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    @media (max-width: 540px) {
+        div.input {
+            /* Old browsers */
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-box-align: stretch;
+            display: -moz-box;
+            -moz-box-orient: vertical;
+            -moz-box-align: stretch;
+            display: box;
+            box-orient: vertical;
+            box-align: stretch;
+            /* Modern browsers */
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+
+    /* input_area and input_prompt must match in top border and margin for alignment */
+    div.input_prompt {
+        color: #303F9F;
+        border-top: 1px solid transparent;
+    }
+
+    div.input_area > div.highlight {
+        margin: 0.4em;
+        border: none;
+        padding: 0px;
+        background-color: transparent;
+    }
+
+    div.input_area > div.highlight > pre {
+        margin: 0px;
+        border: none;
+        padding: 0px;
+        background-color: transparent;
+    }
+
+    /* The following gets added to the <head> if it is detected that the user has a
+     * monospace font with inconsistent normal/bold/italic height.  See
+     * notebookmain.js.  Such fonts will have keywords vertically offset with
+     * respect to the rest of the text.  The user should select a better font.
+     * See: https://github.com/ipython/ipython/issues/1503
+     *
+     * .CodeMirror span {
+     *      vertical-align: bottom;
+     * }
+     */
+    .CodeMirror {
+        line-height: 1.21429em;
+        /* Changed from 1em to our global default */
+        font-size: 14px;
+        height: auto;
+        /* Changed to auto to autogrow */
+        background: none;
+        /* Changed from white to allow our bg to show through */
+    }
+
+    .CodeMirror-scroll {
+        /*  The CodeMirror docs are a bit fuzzy on if overflow-y should be hidden or visible.*/
+        /*  We have found that if it is visible, vertical scrollbars appear with font size changes.*/
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+
+    .CodeMirror-lines {
+        /* In CM2, this used to be 0.4em, but in CM3 it went to 4px. We need the em value because */
+        /* we have set a different line-height and want this to scale with that. */
+        /* Note that this should set vertical padding only, since CodeMirror assumes
+             that horizontal padding will be set on CodeMirror pre */
+        padding: 0.4em 0;
+    }
+
+    .CodeMirror-linenumber {
+        padding: 0 8px 0 4px;
+    }
+
+    .CodeMirror-gutters {
+        border-bottom-left-radius: 2px;
+        border-top-left-radius: 2px;
+    }
+
+    .CodeMirror pre {
+        /* In CM3 this went to 4px from 0 in CM2. This sets horizontal padding only,
+          use .CodeMirror-lines for vertical */
+        padding: 0 0.4em;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .CodeMirror-cursor {
+        border-left: 1.4px solid black;
+    }
+
+    @media screen and (min-width: 2138px) and (max-width: 4319px) {
+        .CodeMirror-cursor {
+            border-left: 2px solid black;
+        }
+    }
+
+    @media screen and (min-width: 4320px) {
+        .CodeMirror-cursor {
+            border-left: 4px solid black;
+        }
+    }
+
+    /*
+
+    Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+    Adapted from GitHub theme
+
+    */
+    .highlight-base {
+        color: #000;
+    }
+
+    .highlight-variable {
+        color: #000;
+    }
+
+    .highlight-variable-2 {
+        color: #1a1a1a;
+    }
+
+    .highlight-variable-3 {
+        color: #333333;
+    }
+
+    .highlight-string {
+        color: #BA2121;
+    }
+
+    .highlight-comment {
+        color: #408080;
+        font-style: italic;
+    }
+
+    .highlight-number {
+        color: #080;
+    }
+
+    .highlight-atom {
+        color: #88F;
+    }
+
+    .highlight-keyword {
+        color: #008000;
+        font-weight: bold;
+    }
+
+    .highlight-builtin {
+        color: #008000;
+    }
+
+    .highlight-error {
+        color: #f00;
+    }
+
+    .highlight-operator {
+        color: #AA22FF;
+        font-weight: bold;
+    }
+
+    .highlight-meta {
+        color: #AA22FF;
+    }
+
+    /* previously not defined, copying from default codemirror */
+    .highlight-def {
+        color: #00f;
+    }
+
+    .highlight-string-2 {
+        color: #f50;
+    }
+
+    .highlight-qualifier {
+        color: #555;
+    }
+
+    .highlight-bracket {
+        color: #997;
+    }
+
+    .highlight-tag {
+        color: #170;
+    }
+
+    .highlight-attribute {
+        color: #00c;
+    }
+
+    .highlight-header {
+        color: blue;
+    }
+
+    .highlight-quote {
+        color: #090;
+    }
+
+    .highlight-link {
+        color: #00c;
+    }
+
+    /* apply the same style to codemirror */
+    .cm-s-ipython span.cm-keyword {
+        color: #008000;
+        font-weight: bold;
+    }
+
+    .cm-s-ipython span.cm-atom {
+        color: #88F;
+    }
+
+    .cm-s-ipython span.cm-number {
+        color: #080;
+    }
+
+    .cm-s-ipython span.cm-def {
+        color: #00f;
+    }
+
+    .cm-s-ipython span.cm-variable {
+        color: #000;
+    }
+
+    .cm-s-ipython span.cm-operator {
+        color: #AA22FF;
+        font-weight: bold;
+    }
+
+    .cm-s-ipython span.cm-variable-2 {
+        color: #1a1a1a;
+    }
+
+    .cm-s-ipython span.cm-variable-3 {
+        color: #333333;
+    }
+
+    .cm-s-ipython span.cm-comment {
+        color: #408080;
+        font-style: italic;
+    }
+
+    .cm-s-ipython span.cm-string {
+        color: #BA2121;
+    }
+
+    .cm-s-ipython span.cm-string-2 {
+        color: #f50;
+    }
+
+    .cm-s-ipython span.cm-meta {
+        color: #AA22FF;
+    }
+
+    .cm-s-ipython span.cm-qualifier {
+        color: #555;
+    }
+
+    .cm-s-ipython span.cm-builtin {
+        color: #008000;
+    }
+
+    .cm-s-ipython span.cm-bracket {
+        color: #997;
+    }
+
+    .cm-s-ipython span.cm-tag {
+        color: #170;
+    }
+
+    .cm-s-ipython span.cm-attribute {
+        color: #00c;
+    }
+
+    .cm-s-ipython span.cm-header {
+        color: blue;
+    }
+
+    .cm-s-ipython span.cm-quote {
+        color: #090;
+    }
+
+    .cm-s-ipython span.cm-link {
+        color: #00c;
+    }
+
+    .cm-s-ipython span.cm-error {
+        color: #f00;
+    }
+
+    .cm-s-ipython span.cm-tab {
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=);
+        background-position: right;
+        background-repeat: no-repeat;
+    }
+
+    div.output_wrapper {
+        /* this position must be relative to enable descendents to be absolute within it */
+        position: relative;
+        /* Old browsers */
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-box-align: stretch;
+        display: -moz-box;
+        -moz-box-orient: vertical;
+        -moz-box-align: stretch;
+        display: box;
+        box-orient: vertical;
+        box-align: stretch;
+        /* Modern browsers */
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        z-index: 1;
+    }
+
+    /* class for the output area when it should be height-limited */
+    div.output_scroll {
+        /* ideally, this would be max-height, but FF barfs all over that */
+        height: 24em;
+        /* FF needs this *and the wrapper* to specify full width, or it will shrinkwrap */
+        width: 100%;
+        overflow: auto;
+        border-radius: 2px;
+        -webkit-box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+        box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+        display: block;
+    }
+
+    /* output div while it is collapsed */
+    div.output_collapsed {
+        margin: 0px;
+        padding: 0px;
+        /* Old browsers */
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-box-align: stretch;
+        display: -moz-box;
+        -moz-box-orient: vertical;
+        -moz-box-align: stretch;
+        display: box;
+        box-orient: vertical;
+        box-align: stretch;
+        /* Modern browsers */
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    div.out_prompt_overlay {
+        height: 100%;
+        padding: 0px 0.4em;
+        position: absolute;
+        border-radius: 2px;
+    }
+
+    div.out_prompt_overlay:hover {
+        /* use inner shadow to get border that is computed the same on WebKit/FF */
+        -webkit-box-shadow: inset 0 0 1px #000;
+        box-shadow: inset 0 0 1px #000;
+        background: rgba(240, 240, 240, 0.5);
+    }
+
+    div.output_prompt {
+        color: #D84315;
+    }
+
+    /* This class is the outer container of all output sections. */
+    div.output_area {
+        padding: 0px;
+        page-break-inside: avoid;
+        /* Old browsers */
+        display: -webkit-box;
+        -webkit-box-orient: horizontal;
+        -webkit-box-align: stretch;
+        display: -moz-box;
+        -moz-box-orient: horizontal;
+        -moz-box-align: stretch;
+        display: box;
+        box-orient: horizontal;
+        box-align: stretch;
+        /* Modern browsers */
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    div.output_area .MathJax_Display {
+        text-align: left !important;
+    }
+
+    div.output_area
+    div.output_area
+    div.output_area img,
+    div.output_area svg {
+        max-width: 100%;
+        height: auto;
+    }
+
+    div.output_area img.unconfined,
+    div.output_area svg.unconfined {
+        max-width: none;
+    }
+
+    div.output_area .mglyph > img {
+        max-width: none;
+    }
+
+    /* This is needed to protect the pre formating from global settings such
+       as that of bootstrap */
+    .output {
+        /* Old browsers */
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-box-align: stretch;
+        display: -moz-box;
+        -moz-box-orient: vertical;
+        -moz-box-align: stretch;
+        display: box;
+        box-orient: vertical;
+        box-align: stretch;
+        /* Modern browsers */
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    @media (max-width: 540px) {
+        div.output_area {
+            /* Old browsers */
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-box-align: stretch;
+            display: -moz-box;
+            -moz-box-orient: vertical;
+            -moz-box-align: stretch;
+            display: box;
+            box-orient: vertical;
+            box-align: stretch;
+            /* Modern browsers */
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+
+    div.output_area pre {
+        margin: 0;
+        padding: 1px 0 1px 0;
+        border: 0;
+        vertical-align: baseline;
+        color: black;
+        background-color: transparent;
+        border-radius: 0;
+    }
+
+    /* This class is for the output subarea inside the output_area and after
+       the prompt div. */
+    div.output_subarea {
+        overflow-x: auto;
+        padding: 0.4em;
+        /* Old browsers */
+        -webkit-box-flex: 1;
+        -moz-box-flex: 1;
+        box-flex: 1;
+        /* Modern browsers */
+        flex: 1;
+        max-width: calc(100% - 14ex);
+    }
+
+    div.output_scroll div.output_subarea {
+        overflow-x: visible;
+    }
+
+    /* The rest of the output_* classes are for special styling of the different
+       output types */
+    /* all text output has this class: */
+    div.output_text {
+        text-align: left;
+        color: #000;
+        /* This has to match that of the the CodeMirror class line-height below */
+        line-height: 1.21429em;
+    }
+
+    /* stdout/stderr are 'text' as well as 'stream', but execute_result/error are *not* streams */
+    div.output_stderr {
+        background: #fdd;
+        /* very light red background for stderr */
+    }
+
+    div.output_latex {
+        text-align: left;
+    }
+
+    /* Empty output_javascript divs should have no height */
+    div.output_javascript:empty {
+        padding: 0;
+    }
+
+    .js-error {
+        color: darkred;
+    }
+
+    /* raw_input styles */
+    div.raw_input_container {
+        line-height: 1.21429em;
+        padding-top: 5px;
+    }
+
+    pre.raw_input_prompt {
+        /* nothing needed here. */
+    }
+
+    input.raw_input {
+        font-family: monospace;
+        font-size: inherit;
+        color: inherit;
+        width: auto;
+        /* make sure input baseline aligns with prompt */
+        vertical-align: baseline;
+        /* padding + margin = 0.5em between prompt and cursor */
+        padding: 0em 0.25em;
+        margin: 0em 0.25em;
+    }
+
+    input.raw_input:focus {
+        box-shadow: none;
+    }
+
+    p.p-space {
+        margin-bottom: 10px;
+    }
+
+    div.output_unrecognized {
+        padding: 5px;
+        font-weight: bold;
+        color: red;
+    }
+
+    div.output_unrecognized a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    div.output_unrecognized a:hover {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .rendered_html {
+        color: #000;
+        /* any extras will just be numbers: */
+    }
+
+
+    .rendered_html :link {
+        text-decoration: underline;
+    }
+
+    .rendered_html :visited {
+        text-decoration: underline;
+    }
+
+
+    .rendered_html h1:first-child {
+        margin-top: 0.538em;
+    }
+
+    .rendered_html h2:first-child {
+        margin-top: 0.636em;
+    }
+
+    .rendered_html h3:first-child {
+        margin-top: 0.777em;
+    }
+
+    .rendered_html h4:first-child {
+        margin-top: 1em;
+    }
+
+    .rendered_html h5:first-child {
+        margin-top: 1em;
+    }
+
+    .rendered_html h6:first-child {
+        margin-top: 1em;
+    }
+
+    .rendered_html ul:not(.list-inline),
+    .rendered_html ol:not(.list-inline) {
+        padding-left: 2em;
+    }
+
+
+    .rendered_html * + ul {
+        margin-top: 1em;
+    }
+
+    .rendered_html * + ol {
+        margin-top: 1em;
+    }
+
+
+    .rendered_html pre,
+    .rendered_html tr,
+    .rendered_html th,
+    .rendered_html tbody tr:nth-child(odd) {
+        background: #f5f5f5;
+    }
+
+    .rendered_html tbody tr:hover {
+        background: rgba(66, 165, 245, 0.2);
+    }
+
+    .rendered_html * + table {
+        margin-top: 1em;
+    }
+
+    .rendered_html * + p {
+        margin-top: 1em;
+    }
+
+    .rendered_html * + img {
+        margin-top: 1em;
+    }
+
+    .rendered_html img,
+    .rendered_html img.unconfined,
+    .rendered_html * + .alert {
+        margin-top: 1em;
+    }
+
+    [dir="rtl"]
+    div.text_cell {
+        /* Old browsers */
+        display: -webkit-box;
+        -webkit-box-orient: horizontal;
+        -webkit-box-align: stretch;
+        display: -moz-box;
+        -moz-box-orient: horizontal;
+        -moz-box-align: stretch;
+        display: box;
+        box-orient: horizontal;
+        box-align: stretch;
+        /* Modern browsers */
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    @media (max-width: 540px) {
+        div.text_cell > div.prompt {
+            display: none;
+        }
+    }
+
+    div.text_cell_render {
+        /*font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;*/
+        outline: none;
+        resize: none;
+        width: inherit;
+        border-style: none;
+        padding: 0.5em 0.5em 0.5em 0.4em;
+        color: #000;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+    }
+
+    a.anchor-link:link {
+        text-decoration: none;
+        padding: 0px 20px;
+        visibility: hidden;
+    }
+
+    h1:hover .anchor-link,
+    h2:hover .anchor-link,
+    h3:hover .anchor-link,
+    h4:hover .anchor-link,
+    h5:hover .anchor-link,
+    h6:hover .anchor-link {
+        visibility: visible;
+    }
+
+    .text_cell.rendered .input_area {
+        display: none;
+    }
+
+    .text_cell.rendered
+    .text_cell.rendered .rendered_html tr,
+    .text_cell.rendered .rendered_html th,
+    .text_cell.rendered
+    .text_cell.unrendered .text_cell_render {
+        display: none;
+    }
+
+    .text_cell .dropzone .input_area {
+        border: 2px dashed #bababa;
+        margin: -1px;
+    }
+
+    .cm-header-1,
+    .cm-header-2,
+    .cm-header-3,
+    .cm-header-4,
+    .cm-header-5,
+    .cm-header-6 {
+        font-weight: bold;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .cm-header-1 {
+        font-size: 185.7%;
+    }
+
+    .cm-header-2 {
+        font-size: 157.1%;
+    }
+
+    .cm-header-3 {
+        font-size: 128.6%;
+    }
+
+    .cm-header-4 {
+        font-size: 110%;
+    }
+
+    .cm-header-5 {
+        font-size: 100%;
+        font-style: italic;
+    }
+
+    .cm-header-6 {
+        font-size: 100%;
+        font-style: italic;
+    }
+    </style>
+    <style type="text/css">.highlight .hll {
+        background-color: #ffffcc
+    }
+
+    .highlight {
+        background: #f8f8f8;
+    }
+
+    .highlight .c {
+        color: #408080;
+        font-style: italic
+    }
+
+    /* Comment */
+    .highlight .err {
+        border: 1px solid #FF0000
+    }
+
+    /* Error */
+    .highlight .k {
+        color: #008000;
+        font-weight: bold
+    }
+
+    /* Keyword */
+    .highlight .o {
+        color: #666666
+    }
+
+    /* Operator */
+    .highlight .ch {
+        color: #408080;
+        font-style: italic
+    }
+
+    /* Comment.Hashbang */
+    .highlight .cm {
+        color: #408080;
+        font-style: italic
+    }
+
+    /* Comment.Multiline */
+    .highlight .cp {
+        color: #BC7A00
+    }
+
+    /* Comment.Preproc */
+    .highlight .cpf {
+        color: #408080;
+        font-style: italic
+    }
+
+    /* Comment.PreprocFile */
+    .highlight .c1 {
+        color: #408080;
+        font-style: italic
+    }
+
+    /* Comment.Single */
+    .highlight .cs {
+        color: #408080;
+        font-style: italic
+    }
+
+    /* Comment.Special */
+    .highlight .gd {
+        color: #A00000
+    }
+
+    /* Generic.Deleted */
+    .highlight .ge {
+        font-style: italic
+    }
+
+    /* Generic.Emph */
+    .highlight .gr {
+        color: #FF0000
+    }
+
+    /* Generic.Error */
+    .highlight .gh {
+        color: #000080;
+        font-weight: bold
+    }
+
+    /* Generic.Heading */
+    .highlight .gi {
+        color: #00A000
+    }
+
+    /* Generic.Inserted */
+    .highlight .go {
+        color: #888888
+    }
+
+    /* Generic.Output */
+    .highlight .gp {
+        color: #000080;
+        font-weight: bold
+    }
+
+    /* Generic.Prompt */
+    .highlight .gs {
+        font-weight: bold
+    }
+
+    /* Generic.Strong */
+    .highlight .gu {
+        color: #800080;
+        font-weight: bold
+    }
+
+    /* Generic.Subheading */
+    .highlight .gt {
+        color: #0044DD
+    }
+
+    /* Generic.Traceback */
+    .highlight .kc {
+        color: #008000;
+        font-weight: bold
+    }
+
+    /* Keyword.Constant */
+    .highlight .kd {
+        color: #008000;
+        font-weight: bold
+    }
+
+    /* Keyword.Declaration */
+    .highlight .kn {
+        color: #008000;
+        font-weight: bold
+    }
+
+    /* Keyword.Namespace */
+    .highlight .kp {
+        color: #008000
+    }
+
+    /* Keyword.Pseudo */
+    .highlight .kr {
+        color: #008000;
+        font-weight: bold
+    }
+
+    /* Keyword.Reserved */
+    .highlight .kt {
+        color: #B00040
+    }
+
+    /* Keyword.Type */
+    .highlight .m {
+        color: #666666
+    }
+
+    /* Literal.Number */
+    .highlight .s {
+        color: #BA2121
+    }
+
+    /* Literal.String */
+    .highlight .na {
+        color: #7D9029
+    }
+
+    /* Name.Attribute */
+    .highlight .nb {
+        color: #008000
+    }
+
+    /* Name.Builtin */
+    .highlight .nc {
+        color: #0000FF;
+        font-weight: bold
+    }
+
+    /* Name.Class */
+    .highlight .no {
+        color: #880000
+    }
+
+    /* Name.Constant */
+    .highlight .nd {
+        color: #AA22FF
+    }
+
+    /* Name.Decorator */
+    .highlight .ni {
+        color: #999999;
+        font-weight: bold
+    }
+
+    /* Name.Entity */
+    .highlight .ne {
+        color: #D2413A;
+        font-weight: bold
+    }
+
+    /* Name.Exception */
+    .highlight .nf {
+        color: #0000FF
+    }
+
+    /* Name.Function */
+    .highlight .nl {
+        color: #A0A000
+    }
+
+    /* Name.Label */
+    .highlight .nn {
+        color: #0000FF;
+        font-weight: bold
+    }
+
+    /* Name.Namespace */
+    .highlight .nt {
+        color: #008000;
+        font-weight: bold
+    }
+
+    /* Name.Tag */
+    .highlight .nv {
+        color: #19177C
+    }
+
+    /* Name.Variable */
+    .highlight .ow {
+        color: #AA22FF;
+        font-weight: bold
+    }
+
+    /* Operator.Word */
+    .highlight .w {
+        color: #bbbbbb
+    }
+
+    /* Text.Whitespace */
+    .highlight .mb {
+        color: #666666
+    }
+
+    /* Literal.Number.Bin */
+    .highlight .mf {
+        color: #666666
+    }
+
+    /* Literal.Number.Float */
+    .highlight .mh {
+        color: #666666
+    }
+
+    /* Literal.Number.Hex */
+    .highlight .mi {
+        color: #666666
+    }
+
+    /* Literal.Number.Integer */
+    .highlight .mo {
+        color: #666666
+    }
+
+    /* Literal.Number.Oct */
+    .highlight .sa {
+        color: #BA2121
+    }
+
+    /* Literal.String.Affix */
+    .highlight .sb {
+        color: #BA2121
+    }
+
+    /* Literal.String.Backtick */
+    .highlight .sc {
+        color: #BA2121
+    }
+
+    /* Literal.String.Char */
+    .highlight .dl {
+        color: #BA2121
+    }
+
+    /* Literal.String.Delimiter */
+    .highlight .sd {
+        color: #BA2121;
+        font-style: italic
+    }
+
+    /* Literal.String.Doc */
+    .highlight .s2 {
+        color: #BA2121
+    }
+
+    /* Literal.String.Double */
+    .highlight .se {
+        color: #BB6622;
+        font-weight: bold
+    }
+
+    /* Literal.String.Escape */
+    .highlight .sh {
+        color: #BA2121
+    }
+
+    /* Literal.String.Heredoc */
+    .highlight .si {
+        color: #BB6688;
+        font-weight: bold
+    }
+
+    /* Literal.String.Interpol */
+    .highlight .sx {
+        color: #008000
+    }
+
+    /* Literal.String.Other */
+    .highlight .sr {
+        color: #BB6688
+    }
+
+    /* Literal.String.Regex */
+    .highlight .s1 {
+        color: #BA2121
+    }
+
+    /* Literal.String.Single */
+    .highlight .ss {
+        color: #19177C
+    }
+
+    /* Literal.String.Symbol */
+    .highlight .bp {
+        color: #008000
+    }
+
+    /* Name.Builtin.Pseudo */
+    .highlight .fm {
+        color: #0000FF
+    }
+
+    /* Name.Function.Magic */
+    .highlight .vc {
+        color: #19177C
+    }
+
+    /* Name.Variable.Class */
+    .highlight .vg {
+        color: #19177C
+    }
+
+    /* Name.Variable.Global */
+    .highlight .vi {
+        color: #19177C
+    }
+
+    /* Name.Variable.Instance */
+    .highlight .vm {
+        color: #19177C
+    }
+
+    /* Name.Variable.Magic */
+    .highlight .il {
+        color: #666666
+    }
+
+    /* Literal.Number.Integer.Long */</style>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h2 id="Title-:">Title :<a class="anchor-link" href="#Title-:">¶</a></h2>
+                <p>Bayes PyMC3</p>
+                <h2 id="Description-:">Description :<a class="anchor-link" href="#Description-:">¶</a></h2>
+                <p>Run this notebook in your own environment. Do not forget to download the images/ and data/
+                    folders.</p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h1><img src="https://raw.githubusercontent.com/Harvard-IACS/2018-CS109A/master/content/styles/iacs.png"
+                         style="float: left; padding-right: 10px; width: 45px"/> CS109B Data Science 2: Advanced Topics
+                    in Data Science</h1>
+                <h2 id="Lecture-10---Bayesian-Analysis-and-Introduction-to-pyMC3">Lecture 10 - Bayesian Analysis and
+                    Introduction to pyMC3<a class="anchor-link"
+                                            href="#Lecture-10---Bayesian-Analysis-and-Introduction-to-pyMC3">¶</a></h2>
+                <p><strong>Harvard University</strong><br/>
+                    <strong>Spring 2021</strong><br/>
+                    <strong>Instructors:</strong> Pavlos Protopapas, Mark Glickman, and Chris Tanner<br/>
+                    <strong>Additional Instructor and content:</strong> Eleni Angelaki Kaxiras<br/></p>
+                <hr/>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="c1">## RUN THIS CELL TO PROPERLY HIGHLIGHT THE EXERCISES</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span
+                                class="n">HTML</span>
+<span class="n">styles</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span
+                                class="n">get</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/Harvard-IACS/2019-CS109B/master/content/styles/cs109.css"</span><span
+                                class="p">)</span><span class="o">.</span><span class="n">text</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">styles</span><span class="p">)</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span
+                            class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="c1"># from pymc3 import summary</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span
+                                class="n">gridspec</span>
+<span class="c1"># Ignore a common pymc3 warning that comes from library functions, not our code.</span>
+<span class="c1"># Pymc3 may throw additional warnings, but other warnings should be manageable</span>
+<span class="c1"># by following the instructions included within the warning messages.</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+    <span class="s2">"Using `from_pymc3` without the model will be deprecated in a future release"</span><span
+                                class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1"># or silence all warnings (not recommended)</span>
+<span class="c1"># warnings.filterwarnings('ignore')</span>
+
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">messages</span><span
+                                class="p">:</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span
+                                class="s2">"ignore"</span><span class="p">,</span> <span class="n">message</span><span
+                                class="o">=</span><span class="n">m</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span
+                                class="s2">"Using PyMC3 version: </span><span class="si">{</span><span
+                                class="n">pm</span><span class="o">.</span><span class="n">__version__</span><span
+                                class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span
+                                class="s2">"Using ArviZ version: </span><span class="si">{</span><span
+                                class="n">az</span><span class="o">.</span><span class="n">__version__</span><span
+                                class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span
+                            class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span
+                            class="kn">import</span> <span class="n">optimize</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span
+                            class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span
+                                class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span
+                                class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline 
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="nx">javascript</span>
+<span class="nx">IPython</span><span class="p">.</span><span class="nx">OutputArea</span><span class="p">.</span><span
+                                class="nx">auto_scroll_threshold</span> <span class="o">=</span> <span
+                                class="mi">20000</span><span class="p">;</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># pandas trick</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span
+                                class="o">.</span><span class="n">max_columns</span> <span class="o">=</span> <span
+                                class="mi">50</span>  <span class="c1"># or =None -> No Restrictions</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span
+                                class="o">.</span><span class="n">max_rows</span> <span class="o">=</span> <span
+                                class="mi">200</span>    <span class="c1"># or =None -> *Be careful with this* </span>
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span
+                                class="o">.</span><span class="n">max_colwidth</span> <span class="o">=</span> <span
+                                class="mi">100</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span
+                                class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span
+                                class="mi">3</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h2 id="Learning-Objectives">Learning Objectives<a class="anchor-link" href="#Learning-Objectives">¶</a>
+                </h2>
+                <p>By the end of this lab, you should be able to:</p>
+                <ul>
+                    <li>identify and describe some of the most important probability distributions.</li>
+                    <li>apply Bayes Rule in calculating probabilities (and would have had fun in the process).</li>
+                    <li>create probabilistic models in the PyMC3 library.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <p><a id="top"></a></p>
+                <h2 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a></h2>
+                <ol>
+                    <li><a href="#1">Some common families of distributions (review)</a></li>
+                    <li><a href="#2">The Bayesian Way of Thinking</a></li>
+                    <li><a href="#3">Bayesian Regression with pyMC3</a> and <a href="#model">Defining a model in
+                        pyMC3</a></li>
+                    <li><a href="#4">Bayesian Logistic Regression with pyMC3</a><br/><br/>
+                        <a href="#appe">Appendix</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <p><a id="1"></a></p>
+                <h2 id="1.-Some-common-families-of-distributions">1. Some common families of distributions<a
+                        class="anchor-link" href="#1.-Some-common-families-of-distributions">¶</a></h2>
+                <p>Statistical distributions are characterized by one of more parameters, such as $\mu$ and $\sigma^2$
+                    for a Gaussian distribution.</p>
+                \begin{equation}
+                Y \sim \mathcal{N}(\mu,\,\sigma^{2})
+                \end{equation}<p></p>
+                <hr/>
+                <h3 id="Discrete-Distributions">Discrete Distributions<a class="anchor-link"
+                                                                         href="#Discrete-Distributions">¶</a></h3>
+                <p>The <strong>probability mass function (pmf)</strong> of a discrete random variable $Y$ is equal to
+                    the probability that our random variable will take a specific value $y$: $f_y=P(Y=y)$ for all $y$.
+                    The variable, most of the times, assumes integer values. Plots for <strong>pmf</strong>s are better
+                    understood as stem plots since we have discrete values for the probabilities and not a curve.
+                    Probabilities should add up to 1 for proper distributions.</p>
+                <ul>
+                    <li><strong>Bernoulli</strong> for a binary outcome, success has probability $\theta$, and we only
+                        have $one$ trial:<br/></li>
+                </ul>
+                \begin{equation}
+                P(Y=k) = \theta^k(1-\theta)^{1-k}
+                \end{equation}<p></p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <ul>
+                    <li><strong>Binomial</strong> for a binary outcome, success has probability $\theta$, $k$ successes
+                        in $n$ trials:
+                    </li>
+                </ul>
+                <p>Our random variable is $Y$= number of successes in $n$ trials.</p>
+                \begin{equation}
+                P(Y=k|n,\theta) = {{ n}\choose{k}} \cdot \theta^k(1-\theta)^{n-k} \quad k=0,1,2,...,n
+                \end{equation}<p><br/>
+                As a reminder ${{ n}\choose{k}}$ is "from $n$ choose $k$":
+                \begin{equation}
+                {{ n}\choose{k}} = \frac{n!}{k!(n-k)!}
+                \end{equation}</p>
+                <p>$EY=n\theta$, $VarY = np(1-p)$</p>
+                <p><strong>Note</strong> : Binomial (1,$p$) = Bernouli ($p$)</p>
+                <br/>
+                <div class="exercise"><b>Exercise</b>: Run the code below (that plots the Binomial distribution using
+                    <i>stats.binom.pmf</i>) for various values of the probability for a success $\theta\in [0,1]$. Look
+                    at the ordinate values to verify that they add up to 1.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># probabity of success</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span
+                                class="p">(</span><span class="mi">0</span><span class="p">,</span> <span
+                                class="n">n</span><span class="o">+</span><span class="mi">1</span><span
+                                class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="n">pmf</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">binom</span><span
+                                class="o">.</span><span class="n">pmf</span><span class="p">(</span><span
+                                class="n">k</span><span class="p">,</span> <span class="n">n</span><span
+                                class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span
+                                class="p">(</span><span class="s1">'seaborn-darkgrid'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span
+                                class="n">k</span><span class="p">,</span> <span class="n">pmf</span><span
+                                class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span
+                                class="s1">'n = </span><span class="si">{}</span><span
+                                class="s1">, $\theta$ = </span><span class="si">{}</span><span class="s1">'</span><span
+                                class="o">.</span><span class="n">format</span><span class="p">(</span><span
+                                class="n">n</span><span class="p">,</span> <span class="n">theta</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Y'</span><span
+                                class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span
+                                class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'P(Y)'</span><span
+                                class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span
+                                class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <ul>
+                    <li><strong>Negative Binomial</strong> for a binary outcome, success has probability $\theta$, we
+                        have $r$ successes in $x$ trials:
+                    </li>
+                </ul>
+                <p>Our random variable is $X$= number of trials to get to $r$ successes.</p>
+                \begin{equation}
+                P(X=x|r,\theta) = {{ x-1}\choose{r-1}} \cdot \theta^r(1-\theta)^{x-r} \quad x=r,r+1,...
+                \end{equation}<br/>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <ul>
+                    <li><strong>Poisson</strong> (counts independent events and has a single parameter $\lambda$)<br/>
+                    </li>
+                </ul>
+                \begin{equation}
+                P\left( Y=y|\lambda \right) = \frac{{ e^{ - \lambda } \lambda ^y }}{{ y!}} \quad y = 0,1,2,...
+                \end{equation}
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <div class="exercise"><b>Exercise</b>: Change the value of $\lambda$ in the Poisson pmf plot below and
+                    see how the plot changes. Remember that the y-axis in a discrete probability distribution shows the
+                    probability of the random variable having a specific value in the x-axis. We use <i>stats.poisson.pmf(x,
+                        $\lambda$)</i>, where $\lambda$ is the parameter.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span
+                            class="o">.</span><span class="n">style</span><span class="o">.</span><span
+                            class="n">use</span><span class="p">(</span><span class="s1">'seaborn-darkgrid'</span><span
+                            class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span
+                                class="p">(</span><span class="mi">0</span><span class="p">,</span> <span
+                                class="mi">10</span><span class="p">)</span>
+<span class="n">lam</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">pmf</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">poisson</span><span
+                                class="o">.</span><span class="n">pmf</span><span class="p">(</span><span
+                                class="n">x</span><span class="p">,</span> <span class="n">lam</span><span
+                                class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span
+                                class="n">x</span><span class="p">,</span> <span class="n">pmf</span><span
+                                class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'$\lambda$ = </span><span
+                                class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span
+                                class="p">(</span><span class="n">lam</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Y'</span><span
+                                class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span
+                                class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'P(Y)'</span><span
+                                class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span
+                                class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span
+                                class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="o">=</span><span
+                                class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span
+                                class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <ul>
+                    <li><strong>Discrete Uniform</strong> for a random variable $X\in(1,N)$:<br/></li>
+                </ul>
+                \begin{equation}
+                P(X=x|N) = \frac{1}{N}, \quad x=1,2,...,N
+                \end{equation}<p></p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span
+                            class="c1"># boring but useful as a prior</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span
+                                class="p">(</span><span class="s1">'seaborn-darkgrid'</span><span class="p">)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span
+                                class="p">(</span><span class="mi">0</span><span class="p">,</span> <span
+                                class="n">N</span><span class="p">)</span>
+<span class="n">pmf</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">randint</span><span
+                                class="o">.</span><span class="n">pmf</span><span class="p">(</span><span
+                                class="n">x</span><span class="p">,</span> <span class="mi">0</span><span
+                                class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span
+                                class="n">x</span><span class="p">,</span> <span class="n">pmf</span><span
+                                class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'$N$ = </span><span
+                                class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span
+                                class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'X'</span><span
+                                class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span
+                                class="n">fontsize</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">f</span><span
+                                class="s1">'P(X|</span><span class="si">{</span><span class="n">N</span><span
+                                class="si">}</span><span class="s1">)'</span><span class="p">,</span> <span class="n">fontsize</span><span
+                                class="o">=</span><span class="n">fontsize</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <ul>
+                    <li><strong>Categorical, or Multinulli</strong> (random variables can take any of K possible
+                        categories, each having its own probability; this is a generalization of the Bernoulli
+                        distribution for a discrete variable with more than two possible outcomes, such as the roll of a
+                        die)
+                    </li>
+                </ul>
+                \begin{equation}
+                f(x_1,x_2,...,x_n) = \frac{m}{x_1!\cdot x_2!\dotsb x_n!} \cdot p_1^{x_1}\cdot p_2^{x_2}\dotsb p_n^{x_n}
+                \end{equation}
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <hr/>
+                <h3 id="Continuous-Distributions">Continuous Distributions<a class="anchor-link"
+                                                                             href="#Continuous-Distributions">¶</a></h3>
+                <p>The random variable has a <strong>probability density function (pdf)</strong> whose area under the
+                    curve equals to 1.</p>
+                <ul>
+                    <li><strong>Uniform</strong> (variable equally likely to be near each value in interval $(a,b)$)
+                        \begin{equation}
+                        f(x|a,b) = \frac{1}{b - a} \quad x\in [a,b] \quad \text{and 0 elsewhere}.
+                        \end{equation}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <div class="exercise"><b>Exercise</b>: Change the value of $\mu$ in the Uniform PDF and see how the plot
+                    changes.
+                </div>
+                <p>Remember that the y-axis in a continuous probability distribution does not shows the actual
+                    probability of the random variable having a specific value in the x-axis because that probability is
+                    zero!. Instead, to see the probability that the variable is within a small margin we look at the
+                    integral below the curve of the PDF.</p>
+                <p>The uniform is often used as a noninformative prior.</p>
+                <pre><code>Uniform - numpy.random.uniform(a=0.0, b=1.0, size)</code></pre>
+                <p>$\alpha$ and $\beta$ are our parameters. <code>size</code> is how many tries to perform.
+                    The mean is $\mu = \frac{(a+b)}{2}$</p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span
+                            class="kn">import</span> <span class="n">uniform</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">uniform</span><span class="o">.</span><span class="n">rvs</span><span
+                                class="p">(</span><span class="n">loc</span><span class="o">=</span><span
+                                class="n">a</span><span class="p">,</span> <span class="n">scale</span><span
+                                class="o">=</span><span class="n">b</span><span class="o">-</span><span
+                                class="n">a</span><span class="p">,</span> <span class="n">size</span><span
+                                class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">pdf</span> <span class="o">=</span> <span class="n">uniform</span><span class="o">.</span><span
+                                class="n">pdf</span><span class="p">(</span><span class="n">r</span><span
+                                class="p">,</span><span class="n">loc</span><span class="o">=</span><span
+                                class="n">a</span><span class="p">,</span> <span class="n">scale</span><span
+                                class="o">=</span><span class="n">b</span><span class="o">-</span><span
+                                class="n">a</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span
+                                class="n">r</span><span class="p">,</span> <span class="n">pdf</span><span
+                                class="p">,</span><span class="s1">'b-'</span><span class="p">,</span> <span class="n">lw</span><span
+                                class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span
+                                class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span
+                                class="o">=</span><span class="s1">'uniform pdf'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span
+                                class="n">r</span><span class="p">,</span> <span class="n">density</span><span
+                                class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">histtype</span><span
+                                class="o">=</span><span class="s1">'stepfilled'</span><span class="p">,</span> <span
+                                class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span
+                                class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span
+                                class="s1">'pdf'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">f</span><span
+                                class="s1">'x'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span
+                                class="o">=</span><span class="s1">'best'</span><span class="p">,</span> <span
+                                class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span
+                                class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <ul>
+                    <li><p><strong>Normal</strong> (a.k.a. Gaussian)
+                        \begin{equation}
+                        X \sim \mathcal{N}(\mu,\,\sigma^{2})
+                        \end{equation}</p>
+                        <p>A Normal distribution can be parameterized either in terms of precision $\tau$ or variance
+                            $\sigma^{2}$. The link between the two is given by
+                            \begin{equation}
+                            \tau = \frac{1}{\sigma^{2}}
+                            \end{equation}</p>
+                        <ul>
+                            <li>Expected value (mean) $\mu$</li>
+                            <li>Variance $\frac{1}{\tau}$ or $\sigma^{2}$</li>
+                            <li>Parameters: <code>mu: float</code>, <code>sigma: float</code> or <code>tau: float</code>
+                            </li>
+                            <li>Range of values (-$\infty$, $\infty$)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span
+                            class="o">.</span><span class="n">style</span><span class="o">.</span><span
+                            class="n">use</span><span class="p">(</span><span class="s1">'seaborn-darkgrid'</span><span
+                            class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span
+                                class="p">(</span><span class="o">-</span><span class="mi">5</span><span
+                                class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span
+                                class="p">)</span>
+<span class="n">mus</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span
+                                class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span
+                                class="p">,</span> <span class="o">-</span><span class="mf">2.</span><span
+                                class="p">]</span>
+<span class="n">sigmas</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.4</span><span
+                                class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span
+                                class="p">,</span> <span class="mf">0.4</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span
+                                class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mus</span><span
+                                class="p">,</span> <span class="n">sigmas</span><span class="p">):</span>
+    <span class="n">pdf</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span
+                                class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span
+                                class="p">(</span><span class="n">x</span><span class="p">,</span> <span
+                                class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span
+                                class="n">x</span><span class="p">,</span> <span class="n">pdf</span><span
+                                class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span
+                                class="s1">'$\mu$ = '</span><span class="o">+</span> <span class="sa">f</span><span
+                                class="s1">'</span><span class="si">{</span><span class="n">mu</span><span
+                                class="si">}</span><span class="s1">,'</span> <span class="o">+</span> <span class="sa">r</span><span
+                                class="s1">'$\sigma$ = '</span> <span class="o">+</span> <span class="sa">f</span><span
+                                class="s1">'</span><span class="si">{</span><span class="n">sigma</span><span
+                                class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'random variable'</span><span
+                                class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span
+                                class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'probability density'</span><span
+                                class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span
+                                class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span
+                                class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <ul>
+                    <li><strong>Beta</strong> (where the variable ($\theta$) takes on values in the interval $(0,1)$,
+                        and is parametrized by two positive parameters, $\alpha$ and $\beta$ that control the shape of
+                        the distribution. Note that Beta is a good distribution to use for priors (beliefs) because its
+                        range is $[0,1]$ which is the natural range for a probability and because we can model a wide
+                        range of functions by changing the $\alpha$ and $\beta$ parameters. Its density (pdf) is:
+                    </li>
+                </ul>
+                \begin{equation}
+                \label{eq:beta}
+                P(\theta|a,b) = \frac{1}{B(\alpha, \beta)} {\theta}^{\alpha - 1} (1 - \theta)^{\beta - 1} \propto
+                {\theta}^{\alpha - 1} (1 - \theta)^{\beta - 1}
+                \end{equation}<p>where the normalisation constant, $B$, is a beta function of $\alpha$ and $\beta$,</p>
+                \begin{equation}
+                B(\alpha, \beta) = \int_{x=0}^1 x^{\alpha - 1} (1 - x)^{\beta - 1} dx.
+                \end{equation}
+                <ul>
+                    <li>'Nice', unimodal distribution</li>
+                    <li>Range of values $[0, 1]$</li>
+                </ul>
+                <p>$EX = \frac{a}{a+b}$, $VarX = \frac{ab}{(a+b)^2(a+b+1)}$</p>
+                <p><br/><br/></p>
+                <div class="exercise"><b>Exercise</b>: Try out various combinations of $a$ and $b$. We get an amazing
+                    set of shapes by tweaking the two parameters $a$ and $b$. Notice that for $a=b=1.$ we get the
+                    uniform distribution. As the values increase, we get a curve that looks more and more Gaussian.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span
+                            class="kn">import</span> <span class="n">beta</span>
+
+<span class="n">fontsize</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">alphas</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span
+                                class="p">]</span> <span class="c1">#, 0.5, 1., 3., 6.]</span>
+<span class="n">betas</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span
+                                class="p">]</span> <span class="c1">#, 1., 1., 3., 6.]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span
+                                class="p">(</span><span class="mi">0</span><span class="p">,</span> <span
+                                class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'red'</span><span
+                                class="p">,</span> <span class="s1">'green'</span><span class="p">,</span> <span
+                                class="s1">'blue'</span><span class="p">,</span> <span class="s1">'black'</span><span
+                                class="p">,</span> <span class="s1">'pink'</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span
+                                class="o">.</span><span class="n">subplots</span><span class="p">(</span><span
+                                class="n">figsize</span><span class="o">=</span><span class="p">(</span><span
+                                class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span
+                                class="p">))</span>
+
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span
+                                class="p">,</span> <span class="n">colors</span> <span class="ow">in</span> <span
+                                class="nb">zip</span><span class="p">(</span><span class="n">alphas</span><span
+                                class="p">,</span> <span class="n">betas</span><span class="p">,</span> <span class="n">colors</span><span
+                                class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span
+                                class="n">x</span><span class="p">,</span> <span class="n">beta</span><span
+                                class="o">.</span><span class="n">pdf</span><span class="p">(</span><span
+                                class="n">x</span><span class="p">,</span><span class="n">a</span><span
+                                class="p">,</span><span class="n">b</span><span class="p">),</span> <span
+                                class="n">c</span><span class="o">=</span><span class="n">colors</span><span
+                                class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span
+                                class="s1">'a=</span><span class="si">{</span><span class="n">a</span><span
+                                class="si">}</span><span class="s1">, b=</span><span class="si">{</span><span class="n">b</span><span
+                                class="si">}</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span
+                                class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span
+                                class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span
+                                class="sa">r</span><span class="s1">'$\theta$'</span><span class="p">,</span> <span
+                                class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span
+                                class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span
+                                class="sa">r</span><span class="s1">'P ($\theta|\alpha,\beta)$'</span><span
+                                class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span
+                                class="n">fontsize</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span
+                                class="s1">'Beta Distribution'</span><span class="p">,</span> <span
+                                class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span
+                                class="o">*</span><span class="mf">1.2</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span
+                                class="o">=</span><span class="s1">'best'</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <p>
+                <div class="discussion"><b>At home</b>: Prove the formula mentioned in class which gives the probability
+                    density for a Beta distribution with parameters $2$ and $5$:<br/>
+                    $p(\theta|2,5) = 30 \cdot \theta(1 - \theta)^4$
+                </div>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h4 id="Code-Resources:">Code Resources:<a class="anchor-link" href="#Code-Resources:">¶</a></h4>
+                <ul>
+                    <li>Statistical Distributions in numpy/scipy: <a
+                            href="https://docs.scipy.org/doc/scipy/reference/stats.html">scipy.stats</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <p><a id="2"></a> <a href="#top">Top</a></p>
+                <h2 id="2.-The-Bayesian-way-of-Thinking">2. The Bayesian way of Thinking<a class="anchor-link"
+                                                                                           href="#2.-The-Bayesian-way-of-Thinking">¶</a>
+                </h2>
+                <pre><code>Here is my state of knowledge about the situation. Here is some data, I am now going to revise my state of knowledge.</code></pre>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h3 id="Bayes-Rule">Bayes Rule<a class="anchor-link" href="#Bayes-Rule">¶</a></h3>\begin{equation}
+                \label{eq:bayes}
+                P(A|\textbf{B}) = \frac{P(\textbf{B} |A) P(A) }{P(\textbf{B})}
+                \end{equation}<p>$P(A|\textbf{B})$ is the <strong>posterior</strong> distribution,
+                probability(parameters| data).</p>
+                <p>$P(\textbf{B} |A)$ is the <strong>likelihood</strong> function, how probable is my data for different
+                    values of the parameters.</p>
+                <p>$P(A)$ is the marginal probability to observe the data, called the <strong>prior</strong>, this
+                    captures our belief about the data before observing it.</p>
+                <p>$P(\textbf{B})$ is the marginal distribution (sometimes called marginal likelihood). This serves a
+                    normalization purpose.</p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h3 id="Let's-Make-a-Deal">Let's Make a Deal<a class="anchor-link" href="#Let's-Make-a-Deal">¶</a></h3>
+                <p><img src="images/montyhall.png"/></p>
+                <p>The problem we are about to solve gained fame as part of a game show "Let's Make A Deal" hosted by
+                    Monty Hall, hence its name. It was first raised by Steve Selvin in American Statistician in
+                    1975.</p>
+                <p>The game is as follows: there are 3 doors behind <strong>one</strong> of which are the keys to a new
+                    car. There is a goat behind each of the other two doors. Let's assume your goal is to get the car
+                    and not a goat.</p>
+                <p>You are asked to pick one door, and let's say you pick <strong>Door1</strong>. The host knows where
+                    the keys are. Of the two remaining closed doors, he will always open the door that has a goat behind
+                    it. He'll say "I will do you a favor and open <strong>Door2</strong>". So he opens Door2 inside
+                    which there is, of course, a goat. He now asks you, do you want to open the initial Door1 you chose
+                    or change to <strong>Door3</strong>? Generally, in this game, when you are presented with this
+                    choice should you swap the doors?<br/><br/>
+                    <strong>Hint:</strong></p>
+                <ul>
+                    <li><p>Start by defining the <code>events</code> of this probabilities game. One definition is:</p>
+                        <ul>
+                            <li><p>$A_i$: car is behind door $i$</p>
+                            </li>
+                            <li><p>$B_i$ host opens door $i$</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>$i\in[1,2,3]$</p>
+                <ul>
+                    <li>In more math terms, the question is: is the probability of <strong>the price is behind Door
+                        1</strong> higher than the probability of <strong>the price is behind Door2</strong>, given that
+                        an event <strong>has occured</strong>?
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <div class="exercise" style="background-color:#b3e6ff"><b>Breakout Game</b>: Solve the Monty Hall
+                    Paradox using Bayes Rule.<br/></div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h3 id="Bayes-rule-revisited">Bayes rule revisited<a class="anchor-link"
+                                                                     href="#Bayes-rule-revisited">¶</a></h3>
+                <p>We have data that we believe come from an underlying distribution of unknown parameters. If we find
+                    those parameters, we know everything about the process that generated this data and we can make
+                    inferences (create new data).</p>
+                \begin{equation}
+                P(\theta|\textbf{D}) = \frac{P(\textbf{D} |\theta) P(\theta) }{P(\textbf{D})}
+                \end{equation}<h4 id="But-what-is-$\theta-\;$?">But what is $\theta \;$?<a class="anchor-link"
+                                                                                           href="#But-what-is-$\theta-\;$?">¶</a>
+            </h4>
+                <p>$\theta$ is an unknown yet fixed set of parameters. In Bayesian inference we express our belief about
+                    what $\theta$ might be and instead of trying to guess $\theta$ exactly, we look for its <strong>probability
+                        distribution</strong>. What that means is that we are looking for the
+                    <strong>parameters</strong> of that distribution. For example, for a Poisson distribution our
+                    $\theta$ is only $\lambda$. In a normal distribution, our $\theta$ is often just $\mu$ and $\sigma$.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <p><a id="3"></a> <a href="#top">Top</a></p>
+                <h2 id="3.-Bayesian-Regression-with-pyMC3">3. Bayesian Regression with <code>pyMC3</code><a
+                        class="anchor-link" href="#3.-Bayesian-Regression-with-pyMC3">¶</a></h2>
+                <p>PyMC3 is a Python library for programming Bayesian analysis, and more specifically, data creation,
+                    model definition, model fitting, and posterior analysis. It uses the concept of a <code>model</code>
+                    which contains assigned parametric statistical distributions to unknown quantities in the model.
+                    Within models we define random variables and their distributions. A distribution requires at least a
+                    <code>name</code> argument, and other <code>parameters</code> that define it. You may also use the
+                    <code>logp()</code> method in the model to build the model log-likelihood function. We define and
+                    fit the model.</p>
+                <p>PyMC3 includes a comprehensive set of pre-defined statistical distributions that can be used as model
+                    building blocks. They are not meant to be used outside of a <code>model</code>, and you can invoke
+                    them by using the prefix <code>pm</code>, as in <code>pm.Normal</code>.</p>
+                <p>For more see: <a href="https://docs.pymc.io/notebooks/api_quickstart.html">PyMC3 Quickstart</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h3 id="Distributions-in-PyMC3:">Distributions in <code>PyMC3</code>:<a class="anchor-link"
+                                                                                        href="#Distributions-in-PyMC3:">¶</a>
+                </h3>
+                <ul>
+                    <li>Statistical <a href="https://docs.pymc.io/api/distributions.html">Distributions in pyMC3</a>.
+                    </li>
+                </ul>
+                <p>Information about PyMC3 functions including descriptions of distributions, sampling methods, and
+                    other functions, is available via the <code>help</code> command.</p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="c1">#help(pm.Beta)</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h3 id="Defining-a-Model-in-PyMC3">Defining a Model in PyMC3<a class="anchor-link"
+                                                                               href="#Defining-a-Model-in-PyMC3">¶</a>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <p>Our problem is the following: we want to perform multiple linear regression to predict an outcome
+                    variable $Y$ which depends on variables $\bf{x}_1$ and $\bf{x}_2$.</p>
+                <p>We will model $Y$ as normally distributed observations with an expected value $mu$ that is a linear
+                    function of the two predictor variables, $\bf{x}_1$ and $\bf{x}_2$.</p>
+                \begin{equation}
+                Y \sim \mathcal{N}(\mu,\,\sigma^{2})
+                \end{equation}<p></p>
+                \begin{equation}
+                \mu = \beta_0 + \beta_1 \bf{x}_1 + \beta_2 x_2
+                \end{equation}<p>where $\sigma^2$ represents the measurement error (in this example, we will use
+                $\sigma^2 = 10$)</p>
+                <p>We also choose the parameters to have normal distributions with those parameters set by us.</p>
+                \begin{eqnarray}
+                \beta_i \sim \mathcal{N}(0,\,10) \\
+                \sigma^2 \sim |\mathcal{N}(0,\,10)|
+                \end{eqnarray}<p><br/>
+                We will artificially create the data to predict on. We will then see if our model predicts them
+                correctly.</p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h4 id="Let's-create-some-synthetic-data">Let's create some synthetic data<a class="anchor-link"
+                                                                                             href="#Let's-create-some-synthetic-data">¶</a>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="n">np</span><span
+                            class="o">.</span><span class="n">random</span><span class="o">.</span><span
+                            class="n">seed</span><span class="p">(</span><span class="mi">123</span><span
+                            class="p">)</span>
+
+<span class="c1">###################################</span>
+<span class="c1">## Hidden true parameter values </span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">beta0</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span
+                                class="p">,</span> <span class="mf">2.5</span><span class="p">]</span>
+<span class="c1">####################################</span>
+
+<span class="c1"># Size of dataset</span>
+<span class="n">size</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="c1"># Predictor variable</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span
+                                class="p">(</span><span class="mi">0</span><span class="p">,</span> <span
+                                class="mf">1.</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span
+                                class="p">(</span><span class="mi">0</span><span class="p">,</span><span
+                                class="mf">2.</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+<span class="c1"># Simulate outcome variable</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">beta0</span> <span class="o">+</span> <span class="n">beta</span><span
+                                class="p">[</span><span class="mi">0</span><span class="p">]</span><span
+                                class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="n">beta</span><span
+                                class="p">[</span><span class="mi">1</span><span class="p">]</span><span
+                                class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span
+                                class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span
+                                class="n">randn</span><span class="p">(</span><span class="n">size</span><span
+                                class="p">)</span><span class="o">*</span><span class="n">sigma</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="n">Y</span><span
+                            class="o">.</span><span class="n">shape</span><span class="p">,</span> <span
+                            class="n">x1</span><span class="o">.</span><span class="n">shape</span><span
+                            class="p">,</span> <span class="n">x2</span><span class="o">.</span><span
+                            class="n">shape</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span
+                            class="kn">import</span> <span class="n">Axes3D</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span
+                                class="p">()</span>
+<span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span>
+<span class="n">labelsize</span><span class="o">=</span><span class="mi">8</span>
+<span class="n">title</span><span class="o">=</span><span
+                                class="s1">'Observed Data (created artificially by '</span> <span
+                                class="o">+</span> <span class="sa">r</span><span class="s1">'$Y(x_1,x_2)$)'</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span
+                                class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span
+                                class="o">=</span><span class="s1">'3d'</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x1</span><span
+                                class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span
+                                class="n">Y</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span
+                                class="sa">r</span><span class="s1">'$x_1$'</span><span class="p">,</span> <span
+                                class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span
+                                class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span
+                                class="sa">r</span><span class="s1">'$x_2$'</span><span class="p">,</span> <span
+                                class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span
+                                class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span
+                                class="sa">r</span><span class="s1">'$Y$'</span><span class="p">,</span> <span
+                                class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span
+                                class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span
+                                class="n">labelsize</span><span class="o">=</span><span class="n">labelsize</span><span
+                                class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span
+                                class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span
+                                class="o">=</span><span class="n">fontsize</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span
+                                class="n">pad</span><span class="o">=.</span><span class="mi">1</span><span
+                                class="p">,</span> <span class="n">w_pad</span><span class="o">=</span><span class="mf">10.1</span><span
+                                class="p">,</span> <span class="n">h_pad</span><span class="o">=</span><span class="mf">2.</span><span
+                                class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">();</span> <span
+                                class="c1">#top=0.5</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h4 id="Building-the-model">Building the model<a class="anchor-link" href="#Building-the-model">¶</a>
+                </h4>
+                <p><strong>Step1:</strong> Formulate the probability model for our data: $Y \sim
+                    \mathcal{N}(\mu,\,\sigma^{2})$</p>
+                <pre><code>Y_obs = pm.Normal('Y_obs', mu=mu, sd=sigma, observed=Y)</code></pre>
+                <p><strong>Step2:</strong> Choose a prior distribution for our unknown parameters.</p>
+                <pre><code> beta0 = Normal('beta0', mu=0, sd=10)
+ # Note: betas is a vector of two variables, b1 and b2, (denoted by shape=2)
+ # so, in array notation, our beta1 = betas[0], and beta2=betas[1]
+ betas = Normal('betas', mu=0, sd=10, shape=2) 
+ sigma = HalfNormal('sigma', sd=1)</code></pre>
+                <p><strong>Step3:</strong> Construct the likelihood function.</p>
+                <p><strong>Step4:</strong> Determine the posterior distribution, <strong>this is our main goal</strong>.
+                </p>
+                <p><strong>Step5:</strong> Summarize important features of the posterior and/or plot the parameters.</p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span
+                            class="n">pm</span><span class="o">.</span><span class="n">Model</span><span
+                            class="p">()</span> <span class="k">as</span> <span class="n">my_linear_model</span><span
+                            class="p">:</span>
+
+    <span class="c1"># Priors for unknown model parameters, specifically created stochastic random variables </span>
+    <span class="c1"># with Normal prior distributions for the regression coefficients,</span>
+    <span class="c1"># and a half-normal distribution for the standard deviation of the observations.</span>
+    <span class="c1"># These are our parameters.</span>
+    
+    <span class="c1"># I need to give the prior some initial values for the parameters</span>
+    <span class="n">mu0</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sd0</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span
+                                class="n">Normal</span><span class="p">(</span><span class="s1">'beta0'</span><span
+                                class="p">,</span> <span class="n">mu</span><span class="o">=</span><span
+                                class="n">mu0</span><span class="p">,</span> <span class="n">sd</span><span
+                                class="o">=</span><span class="n">sd0</span><span class="p">)</span>
+    <span class="c1"># Note: betas is a vector of two variables, b1 and b2, (denoted by shape=2)</span>
+    <span class="c1"># so, in array notation, our beta1 = betas[0], and beta2=betas[1]</span>
+    <span class="n">mub</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sdb</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">betas</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span
+                                class="n">Normal</span><span class="p">(</span><span class="s1">'betas'</span><span
+                                class="p">,</span> <span class="n">mu</span><span class="o">=</span><span
+                                class="n">mub</span><span class="p">,</span> <span class="n">sd</span><span
+                                class="o">=</span><span class="n">sdb</span><span class="p">,</span> <span class="n">shape</span><span
+                                class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">sds</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span
+                                class="n">HalfNormal</span><span class="p">(</span><span class="s1">'sigma'</span><span
+                                class="p">,</span> <span class="n">sd</span><span class="o">=</span><span
+                                class="n">sds</span><span class="p">)</span>
+    
+    <span class="c1"># mu is what is called a deterministic random variable, which implies that </span>
+    <span class="c1"># its value is completely determined by its parents’ values </span>
+    <span class="c1"># (betas and sigma in our case). There is no uncertainty in the </span>
+    <span class="c1"># variable beyond that which is inherent in the parents’ values</span>
+    
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">beta0</span> <span class="o">+</span> <span
+                                class="n">betas</span><span class="p">[</span><span class="mi">0</span><span
+                                class="p">]</span><span class="o">*</span><span class="n">x1</span> <span
+                                class="o">+</span> <span class="n">betas</span><span class="p">[</span><span class="mi">1</span><span
+                                class="p">]</span><span class="o">*</span><span class="n">x2</span>
+    
+    <span class="c1"># Likelihood function = how probable is my observed data?</span>
+    <span class="c1"># This is an observed variable; it is identical to a standard </span>
+    <span class="c1"># stochastic variable, except that its observed argument, </span>
+    <span class="c1"># which passes the data to the variable, indicates that the values for this </span>
+    <span class="c1"># variable were observed, and should not be changed by any </span>
+    <span class="c1"># fitting algorithm applied to the model. </span>
+    <span class="c1"># The data can be passed in the form of a numpy.ndarray or pandas.DataFrame object.</span>
+    
+    <span class="n">Y_obs</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span
+                                class="n">Normal</span><span class="p">(</span><span class="s1">'Y_obs'</span><span
+                                class="p">,</span> <span class="n">mu</span><span class="o">=</span><span
+                                class="n">mu</span><span class="p">,</span> <span class="n">sd</span><span
+                                class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span
+                                class="o">=</span><span class="n">Y</span><span class="p">)</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="n">my_linear_model</span><span
+                            class="o">.</span><span class="n">basic_RVs</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="n">my_linear_model</span><span
+                            class="o">.</span><span class="n">free_RVs</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <p><strong>Note</strong>: If our problem was a classification for which we would use Logistic
+                    regression.</p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="c1">## do not worry if this does not work, it's just a nice graph to have</span>
+<span class="c1">## you need to install python-graphviz first</span>
+<span class="c1"># conda install -c conda-forge python-graphviz</span>
+<span class="n">pm</span><span class="o">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span
+                                class="n">my_linear_model</span><span class="p">)</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <p>Now all we need to do is sample our model.</p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h3 id="...-to-be-continued">... to be continued<a class="anchor-link" href="#...-to-be-continued">¶</a>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <p><a id="appeA"></a></p>
+                <h2 id="Appendix-A:-Bayesian-Logistic-Regression-with-pyMC3">Appendix A: Bayesian Logistic Regression
+                    with <code>pyMC3</code><a class="anchor-link"
+                                              href="#Appendix-A:-Bayesian-Logistic-Regression-with-pyMC3">¶</a></h2>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <p>If the problem above was a classification that required a Logistic Regression, we would use the
+                    logistic function ( where $\beta_0$ is the intercept, and $\beta_i$ (i=1, 2, 3) determines the shape
+                    of the logistic function).</p>
+                \begin{equation}
+                Pr(Y=1|X_1,X_2,X3) = {\frac{1}{1 + exp^{-(\beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3X_3)}}}
+                \end{equation}<p>Since both $\beta_0$ and the $\beta_i$s can be any possitive or negative number, we can
+                model them as gaussian random variables.</p>
+                \begin{eqnarray}
+                \beta_0 \sim \mathcal{N}(\mu,\,\sigma^2) \\
+                \beta_i \sim \mathcal{N}(\mu_i,\,\sigma_i^2)
+                \end{eqnarray}<p></p>
+                <p>In PyMC3 we can model those as:</p>
+                <pre><code>pm.Normal('beta_0', mu=0, sigma=100)</code></pre>
+                <p>(where $\mu$ and $\sigma^2$ can have some initial values that we assign them, e.g. 0 and 100)</p>
+                <p>The dererministic variable would be:</p>
+                <pre><code>logitp = beta0 + beta_1 * X_1 + beta_2 * X_2 + beta_3 * X_3</code></pre>
+                <p>To connect this variable (logit-p) with our observed data, we would use a Bernoulli as our
+                    likelihood.</p>
+                <pre><code>our_likelihood = pm.Bernoulli('our_likelihood', logit_p=logitp, observed=our_data)</code></pre>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <p>Notice that the main difference with Linear Regression is the use of a Bernoulli distribution instead
+                    of a Gaussian distribution, and the use of the logistic function instead of the identity
+                    function.</p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <div class="exercise" style="background-color:#b3e6ff"><b>Breakout Room Exercise</b>: Write the model
+                    above in code. Suppose that your training dataframe (df_train) has the following features:
+
+                    **numerical**
+                    - df_train['age']
+                    - df_train['weight']
+
+                    **categorical**
+                    - df_train['hypertension']
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># A reminder of what the logistic function looks like. </span>
+<span class="c1"># Change parameters a and b to see the shape of the curve change</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mf">5.</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span
+                                class="p">(</span><span class="o">-</span><span class="mi">8</span><span
+                                class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">100</span><span
+                                class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span
+                                class="n">x</span><span class="p">,</span> <span class="mi">1</span> <span
+                                class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span
+                                class="o">+</span> <span class="n">np</span><span class="o">.</span><span
+                                class="n">exp</span><span class="p">(</span><span class="o">-</span><span
+                                class="n">b</span><span class="o">*</span><span class="n">x</span><span
+                                class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'y'</span><span
+                                class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'y=logistic(x)'</span><span
+                                class="p">)</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <p><a id="appe"></a></p>
+                <h2 id="Appendix-B:-Is-this-a-fair-coin?">Appendix B: Is this a fair coin?<a class="anchor-link"
+                                                                                             href="#Appendix-B:-Is-this-a-fair-coin?">¶</a>
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h3 id="Is-this-a-fair-coin?">Is this a fair coin?<a class="anchor-link"
+                                                                     href="#Is-this-a-fair-coin?">¶</a></h3>
+                <p>Let's say you visit the casino in <strong>Monte Carlo</strong>. You want to test your theory that
+                    casinos are dubious places where coins have been manipulated to have a larger probability for tails.
+                    So you will try to estimate how fair a coin is based on a certain amount of flips. <br/>
+                    You have no prior opinion on the coin's fairness (i.e. what $p$ might be), and begin flipping the
+                    coin. You get either Heads ($H$) or Tails ($T$) as our observed data and want to see if your
+                    posterior probabilities change as you obtain more data, that is, more coin flips. A nice way to
+                    visualize this is to plot the posterior probabilities as we observe more flips (data).</p>
+                <p>We will be using Bayes rule. $\textbf{D}$ is our data.</p>
+                \begin{equation}
+                P(\theta|\textbf{D}) = \frac{P(\textbf{D} |\theta) P(\theta) }{P(\textbf{D})}
+                \end{equation}<p>We start with a non-informative prior, a Beta distribution with (a=b=1.)</p>
+                \begin{equation}
+                P(\theta|\textbf{k=0}) = Beta(1., 1.)
+                \end{equation}<p>Then, as we get new data (say, we observe $k$ heads in $n$ tosses), we update our Beta
+                with new a,b as follows:</p>
+                \begin{equation}
+                P(\theta|\textbf{k}) = Beta(\alpha + \textbf{k}, \beta + (n - \textbf{k}))
+                \end{equation}<p><em>(the proof is beyond our scope, if interested, see this <a
+                    href="https://en.wikipedia.org/wiki/Conjugate_prior#Example">Wikipedia article</a>)</em></p>
+                <p>we can say that $\alpha$ and $\beta$ play the roles of a "prior number of heads" and "prior number of
+                    tails".</p>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing code_cell rendered">
+        <div class="input">
+            <div class="prompt input_prompt">In [0]:</div>
+            <div class="inner_cell">
+                <div class="input_area">
+                    <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># play with the priors - here we manually set them but we could be sampling from a separate Beta</span>
+<span class="n">trials</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span
+                                class="p">([</span><span class="mi">0</span><span class="p">,</span> <span
+                                class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span
+                                class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span
+                                class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span
+                                class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span
+                                class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span
+                                class="p">])</span>
+<span class="n">heads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span
+                                class="p">([</span><span class="mi">0</span><span class="p">,</span> <span
+                                class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span
+                                class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span
+                                class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span
+                                class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span
+                                class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">150</span><span
+                                class="p">])</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span
+                                class="p">(</span><span class="mi">0</span><span class="p">,</span> <span
+                                class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span
+                                class="p">)</span>
+
+<span class="c1"># for simplicity we set a,b=1</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span
+                                class="o">=</span><span class="p">(</span><span class="mi">10</span><span
+                                class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">N</span> <span
+                                class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span
+                                class="n">trials</span><span class="p">):</span>
+    <span class="n">sx</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span
+                                class="n">subplot</span><span class="p">(</span><span class="nb">len</span><span
+                                class="p">(</span><span class="n">trials</span><span class="p">)</span><span
+                                class="o">/</span><span class="mi">2</span><span class="p">,</span> <span
+                                class="mi">2</span><span class="p">,</span> <span class="n">k</span><span
+                                class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">posterior</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span
+                                class="n">beta</span><span class="o">.</span><span class="n">pdf</span><span
+                                class="p">(</span><span class="n">x</span><span class="p">,</span> <span
+                                class="mi">1</span> <span class="o">+</span> <span class="n">heads</span><span
+                                class="p">[</span><span class="n">k</span><span class="p">],</span> <span
+                                class="mi">1</span> <span class="o">+</span> <span class="n">trials</span><span
+                                class="p">[</span><span class="n">k</span><span class="p">]</span> <span
+                                class="o">-</span> <span class="n">heads</span><span class="p">[</span><span
+                                class="n">k</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span
+                                class="n">x</span><span class="p">,</span> <span class="n">posterior</span><span
+                                class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span
+                                class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span
+                                class="o">=</span><span class="sa">f</span><span class="s1">'</span><span
+                                class="si">{</span><span class="n">trials</span><span class="p">[</span><span class="n">k</span><span
+                                class="p">]</span><span class="si">}</span><span class="s1"> tosses</span><span
+                                class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">heads</span><span
+                                class="p">[</span><span class="n">k</span><span class="p">]</span><span
+                                class="si">}</span><span class="s1"> heads'</span><span class="p">);</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span
+                                class="n">x</span><span class="p">,</span> <span class="mi">0</span><span
+                                class="p">,</span> <span class="n">posterior</span><span class="p">,</span> <span
+                                class="n">color</span><span class="o">=</span><span class="s2">"#348ABD"</span><span
+                                class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span
+                                class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span
+                                class="n">loc</span><span class="o">=</span><span class="s1">'upper left'</span><span
+                                class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span
+                                class="mi">10</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">autoscale</span><span class="p">(</span><span
+                                class="n">tight</span><span class="o">=</span><span class="kc">True</span><span
+                                class="p">)</span>
+    
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span
+                                class="s2">"Posterior probabilities for coin flips"</span><span class="p">,</span> <span
+                                class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span
+                                class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span
+                                class="n">top</span><span class="o">=</span><span class="mf">0.88</span><span class="p">)</span>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cell border-box-sizing text_cell rendered">
+        <div class="prompt input_prompt">
+        </div>
+        <div class="inner_cell">
+            <div class="text_cell_render border-box-sizing rendered_html">
+                <h3 id="References">References<a class="anchor-link" href="#References">¶</a></h3>
+                <ul>
+                    <li><em>Salvatier J, Wiecki TV, Fonnesbeck C. 2016. Probabilistic programming in Python using PyMC3.
+                        PeerJ Computer Science 2:e55</em> <a href="https://doi.org/10.7717/peerj-cs.55">(https://doi.org/10.7717/peerj-cs.55)</a>
+                    </li>
+                    <li><a href="https://docs.pymc.io/api/distributions.html">Distributions in PyMC3</a></li>
+                    <li><a href="https://docs.pymc.io/developer_guide.html">More Details on Distributions</a></li>
+                </ul>
+                <p>This linear regression example is from the original paper on PyMC3: <em>Salvatier J, Wiecki TV,
+                    Fonnesbeck C. 2016. Probabilistic programming in Python using PyMC3. PeerJ Computer Science 2:e55 <a
+                            href="https://doi.org/10.7717/peerj-cs.55">https://doi.org/10.7717/peerj-cs.55</a></em></p>
+                <h4 id="Cool-Reading">Cool Reading<a class="anchor-link" href="#Cool-Reading">¶</a></h4>
+                <ul>
+                    <li>How Bayesian Analysis and Lawrence D. Stone found the Wreckage of <a
+                            href="https://www.jstor.org/stable/pdf/43288452.pdf?refreqid=excelsior%3Ae972f3a7b38b5815e1570b93dad7d269">Air
+                        France Flight AF 447</a>.
+                    </li>
+                    <li>Search for the gold on the sunken <a
+                            href="https://www.metsci.com/wp-content/uploads/2019/08/Search-for-the-SS-Central-America-Mathematical-Treasure-Hunting-Interfaces-22-1-Jan.-Feb.-1992.pdf">SS
+                        Central America</a>.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            " linebreaks: { automatic: true, width: '95% container' }, " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+    </script>
+</main>
+
+<footer class="footer">
+    <div class="container">
+    <span class="text-muted">Copyright 2021 &copy;
+      <a class="text-muted" href="https://iacs.seas.harvard.edu/">Institute for Applied Computational Science</a>
+    </span>
+    </div>
+</footer>     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"
+></script>
+</body>
+</html>

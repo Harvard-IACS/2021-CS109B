@@ -1,0 +1,214 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Title :\n",
+    "Image Occlusion\n",
+    "\n",
+    "## Description :\n",
+    "The aim of this exercise is to understand occlusion. Each pixel in an image has varying importance for the classification of the image. Occlusion involves running a patch over the entire image to see which pixels affect the classification the most.\n",
+    "\n",
+    "<img src=\"../fig/fig2.png\" style=\"width: 500px;\">\n",
+    "\n",
+    "## Instructions:\n",
+    "\n",
+    "- Define a convolutional neural network based on the architecture mentioned in the scaffold.\n",
+    "- Load the trained model weights given in the `occlusion_model_weights.h5` file.\n",
+    "- Take a quick look at the model architecture using `model.summary()`.\n",
+    "- Use the helper function `occlusion` to visualize the delta loss as a mask moves across the image. The output will look similar to the one shown below.\n",
+    "\n",
+    "<img src=\"../fig/fig3.png\" style=\"width: 500px;\">\n",
+    "\n",
+    "## Hints:\n",
+    "\n",
+    "<a href=\"https://www.tensorflow.org/api_docs/python/tf/keras/layers/MaxPool2D\" target=\"_blank\">MaxPooling2D()</a>Max pooling operation for 2D spatial data.\n",
+    "\n",
+    "<a href=\"https://www.tensorflow.org/api_docs/python/tf/keras/Model#compile\" target=\"_blank\">compile()</a>Configures the model for training.\n",
+    "\n",
+    "<a href=\"https://www.tensorflow.org/api_docs/python/tf/keras/layers/Conv2D\" target=\"_blank\">Conv2D()</a>2D convolution layer (e.g. spatial convolution over images).\n",
+    "\n",
+    "<a href=\"https://www.tensorflow.org/api_docs/python/tf/keras/layers/Flatten\" target=\"_blank\">flatten()</a>Flattens the input. \n",
+    "\n",
+    "<a href=\"https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense\" target=\"_blank\">Dense()</a>A regular densely-connected NN layer.\n",
+    "\n",
+    "**NOTE** - To run the test, comment the cells that call the occlusion function and then click on **Mark**."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Import necessary libraries\n",
+    "import os\n",
+    "import random\n",
+    "import numpy as np\n",
+    "import pandas as pd\n",
+    "import tensorflow as tf\n",
+    "import matplotlib.pyplot as plt\n",
+    "from tensorflow.keras import backend as K\n",
+    "from sklearn.metrics import accuracy_score\n",
+    "from helper import occlusion, load_dataset\n",
+    "from tensorflow.keras.optimizers import SGD\n",
+    "from tensorflow.keras.datasets import cifar10\n",
+    "from tensorflow.keras.utils import to_categorical\n",
+    "from tensorflow.keras.applications import MobileNet\n",
+    "from sklearn.model_selection import train_test_split\n",
+    "from tensorflow.keras.models import Sequential, Model\n",
+    "from tensorflow.keras.applications.mobilenet import preprocess_input\n",
+    "from tensorflow.keras.layers import Dense, Dropout, Flatten, Activation, Input, Conv2D, MaxPooling2D, InputLayer, ReLU\n",
+    "\n",
+    "%matplotlib inline"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Initialize a sequential model\n",
+    "model = Sequential(name=\"Occlusion\")\n",
+    "\n",
+    "# First convolution layer\n",
+    "model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(32, 32, 3)))\n",
+    "\n",
+    "# Second convolution layer\n",
+    "model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))\n",
+    "\n",
+    "# First max-pooling layer\n",
+    "model.add(MaxPooling2D((2, 2)))\n",
+    "\n",
+    "# Third convolution layer\n",
+    "model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))\n",
+    "\n",
+    "# Fourth convolution layer\n",
+    "model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))\n",
+    "\n",
+    "# Second max-pooling layer\n",
+    "model.add(MaxPooling2D((2, 2)))\n",
+    "\n",
+    "# Fifth convolution layer\n",
+    "model.add(Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))\n",
+    "\n",
+    "# Sixth convolution layer\n",
+    "model.add(Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))\n",
+    "\n",
+    "# Third max-pooling layer\n",
+    "model.add(MaxPooling2D((2, 2)))\n",
+    "\n",
+    "# Flatten layer\n",
+    "model.add(Flatten())\n",
+    "\n",
+    "# Fully connected dense layer\n",
+    "model.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))\n",
+    "\n",
+    "# Output layer\n",
+    "model.add(Dense(10, activation='softmax'))\n",
+    "\n",
+    "# Compiling the model\n",
+    "model.compile(optimizer=SGD(lr=0.001, momentum=0.9), loss='categorical_crossentropy', metrics=['accuracy'])\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Take a quick look at the model summary\n",
+    "model.summary()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Load the weights of the pre-trained model\n",
+    "model.load_weights(\"occlusion_model_weights.h5\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### ⏸ Call the function `occlusion` (below) with image numbers 10, 12 and 35. What do you observe based on the occlusion map plotted for each image?\n",
+    "\n",
+    "#### A. The images are blurred more as compared to other images in the set.\n",
+    "#### B. The images are incorrectly predicted because the model weights the wrong parts of the image to make the prediction.\n",
+    "#### C. The images are correctly predicted as the network is giving high importance to the most telling features of the images."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "### edTest(test_chow1) ###\n",
+    "# Submit an answer choice as a string below (eg. if you choose option C, put 'C')\n",
+    "answer1 = '___'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Call the helper function occlusion with \n",
+    "# the trained model, a valid image number within 50, occlusion \n",
+    "# patch size\n",
+    "img_num = ___\n",
+    "patch_size = ___\n",
+    "\n",
+    "occlusion(model, img_num , patch_size)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### ⏸ Call the `occlusion` function (below) with images 1, 15 and 30. What do you observe based on the plots?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 0,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "### edTest(test_chow2) ###\n",
+    "\n",
+    "# Type your answer here \n",
+    "answer2 = '___'"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 1
+}
