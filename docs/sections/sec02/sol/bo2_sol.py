@@ -2,19 +2,16 @@
 
 class_dict = {0: "horse", 1: "zebra"}
 
-
-# Define a function here to replace "sigmoid" of the final dense layer with "linear"
+# Define a function here to replace "sigmoid" of the final dense layer with "linear" 
 # as we want the class scores, not the class
 
 def prepare_image(img):
     img_expanded_dims = tf.expand_dims(img, axis=0)
     return img_expanded_dims
 
-
 def model_modifier(m):
     m.layers[-1].activation = tf.keras.activations.linear
     return m
-
 
 # Defining a function to generate saliency graphs for the 2 predicted classes
 def saliency_graphs(model, img, n_classes=2, positive_gradients=False):

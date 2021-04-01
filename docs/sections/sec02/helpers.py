@@ -1,7 +1,6 @@
 # helper functions
 import matplotlib.pyplot as plt
 
-
 def random_rotate(image, label):
     """Dataset pipe that rotates an image, helper function to augment below"""
     shape = image.shape
@@ -10,7 +9,6 @@ def random_rotate(image, label):
     image.set_shape((shape))
     label.set_shape(())
     return image, label
-
 
 def random_zoom(image, label):
     """Dataset pipe that zooms an image, helper function to augment below"""

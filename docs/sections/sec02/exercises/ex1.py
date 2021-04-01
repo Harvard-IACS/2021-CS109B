@@ -29,5 +29,5 @@ for i in range(n_layers):
     quick_display(..., title=f'zebra layer {i}')
     quick_display(..., title=f'horse layer {i}')
 
-# re-enable warnings
+#re-enable warnings
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.WARN)

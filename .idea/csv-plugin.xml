@@ -17,6 +17,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/content/pages/schedule.md">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
       </map>
     </option>
   </component>

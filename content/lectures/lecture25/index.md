@@ -1,12 +1,12 @@
-Title: Lecture 24 - Attention
+Title: Lecture 25 - 🤖 Transformers
 Category: lectures
-Slug: lecture24
-Author: Chris Tanner
-Date: 2021-03-26
+Slug: lecture25
+Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner
+Date: 2021-03-29
 Tags: seq2seq, attention
 
 ## Slides
-- [Lecture 24: Representing Language (PDF)]({attach}presentation/Lecture24_Attention.pdf)
+- [Lecture 25: Transformers (PDF)]({attach}presentation/Lecture25_Transformers.pdf)
 
 ## Exercises
-- [Lecture 24: Attention (Notebook)]({filename}notebook/L24_Ex1_student.ipynb)
+- [Lecture 25: Self-Attention (Notebook)]({filename}notebook/L25_Ex1_student.ipynb)

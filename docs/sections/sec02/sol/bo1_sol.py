@@ -26,5 +26,5 @@ for i in range(n_layers):
     quick_display(zebra_layer_i_feature_maps[0, :, :, :], title=f'zebra layer {i}')
     quick_display(horse_layer_i_feature_maps[0, :, :, :], title=f'horse layer {i}')
 
-# re-enable warnings
+#re-enable warnings
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.WARN)
