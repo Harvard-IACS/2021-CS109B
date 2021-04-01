@@ -1,4 +1,4 @@
-Title: Lecture 12 - Bayesian statistics (part 4)   
+Title: Lecture 12 - Bayesian statistics (part 4)
 Category: lectures
 Slug: lecture12
 Author: Mark Glickman, Pavlos Protopapas, and Chrris Tanner
