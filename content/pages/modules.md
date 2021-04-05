@@ -35,11 +35,11 @@ B. [Astrophysics](https://drive.google.com/drive/folders/1N8YxhWWVNnIfq-i4sKo6fD
 
 C. [Law Citations](https://drive.google.com/drive/folders/1qckGwGvuZimviwCfesFMts8vZF8VuTC0?usp=sharing)
 
-D. [Design](https://docs.google.com/document/d/1DaKF7nq9aXszmvdr7AXm_NOT2K9aHWL0YC6_nFRQZe8/edit?usp=sharing)
+D. [Design](https://drive.google.com/drive/folders/1ZdHaDU8m23RUMKkqH94ALF6PzpSooOuc?usp=sharing)
 
-E. [Privacy](https://docs.google.com/document/d/1DaKF7nq9aXszmvdr7AXm_NOT2K9aHWL0YC6_nFRQZe8/edit?usp=sharing)
+E. [Privacy](https://drive.google.com/drive/folders/1Jud2NrvKru-Oy5XBqdhg_fxWNWbc1lpN?usp=sharing)
 
-F. [Genetic Sequencing](https://docs.google.com/document/d/1DaKF7nq9aXszmvdr7AXm_NOT2K9aHWL0YC6_nFRQZe8/edit?usp=sharing)
+F. [Genetic Sequencing](https://drive.google.com/drive/folders/1j55QftXWhiT6NNFV_eQuepd0SJ2fRUaY?usp=sharing)
 
 G. [Greek Pottery](https://drive.google.com/drive/folders/1e9sQ9Q56F47q1n5AOlZktCDJnGe-FUtZ?usp=sharing)
 
