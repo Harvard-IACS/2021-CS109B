@@ -1,6 +1,6 @@
 Title: Schedule
 Slug: schedule
-Date: 2021-04-05
+Date: 2021-04-07
 
 
 |Date (Mon)|Lecture (Mon)|Lecture (Wed)|Lecture (Fri)|Advanced Section (Wed)|Assignment (R:Released Wed - D:Due Wed)||
@@ -13,9 +13,9 @@ Date: 2021-04-05
 |1-Mar|No Lecture (Wellness Day)|Lecture 14 - _ CNNs basics|Lecture 15 - _ CNNs Pooling and CNNs Structure||R: HW4 - D: HW3||
 |8-Mar|Lecture 16 - _ Backprop max pooling, Receptive Fields and feature map viz|Lecture 17 - _ Saliency maps|Lecture 18 - __ State of the art models (SOTA) and Transfer Learning|[Advanced Section 1: Segmentation Techniques, YOLO, Unet, & M-RCNN]({filename}/a-sections/a-sec01/index.md)|||
 |15-Mar|Lecture 19 - _ RNNs|Lecture 20 - _ GRUs|Lecture 21 - _ LSTMs|[Advanced Section 2: Recurrent Neural Networks and Reservoir Computing]({filename}/a-sections/a-sec02/index.md)|R:HW5 - D:HW4||
-|22-Mar|Lecture 22 - __ Language Modelling|Lecture 23 - __ Language Representations|Lecture 24: NLP 3/4 (Transformers I)|Advanced Section 3: Word2Vec|R:HW6 -  D:HW5||
+|22-Mar|Lecture 22 - __ Language Modelling|Lecture 23 - __ Language Representations|Lecture 24: NLP 3/4 (Transformers I)|[Advanced Section 3: Word Embeddings]({filename}/a-sections/a-sec03/index.md)|R:HW6 -  D:HW5||
 |29-Mar|Lecture 25: NLP 4/4 (Transformers II)|No Lecture (Wellness Day)|Lecture 26: Autoencoder||||
-|5-Apr|Lecture 27: Variational Autoencoder 1/2|Lecture 28: Variational Autoencoder 2/2|Lecture 29: GANS 1/2|Advanced Section 4: Inference in NN||R:HW7 - D:HW6|
+|5-Apr|Lecture 27: Variational Autoencoder 1/2|Lecture 28: Variational Autoencoder 2/2|Lecture 29: GANS 1/2|[Advanced Section 4: Inference in NN]({filename}/a-sections/a-sec04/index.md)||R:HW7 - D:HW6|
 |12-Apr|Lecture 30: GANS 2/2|Lecture 31: Reinforcement Learning - Basics 1|Lecture 32: Reinforcement Learning - Basics 2|Advanced Section 5: GANS|||
 |19-Apr|Lecture 33: Deep Reinforcement Learning|Module: Lecture Domain|Module: Problem Background|Advanced Section:6 Reinforcement Learning|D:HW7||
 |26-Apr|||||||
