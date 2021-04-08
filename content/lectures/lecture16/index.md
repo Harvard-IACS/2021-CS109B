@@ -1,4 +1,4 @@
-Title: Lecture 16 - ύ Backprop max pooling, Receptive Fields and feature map viz
+Title: Lecture 16: ύ Backprop max pooling, Receptive Fields and feature map viz
 Category: lectures
 Slug: lecture16
 Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner

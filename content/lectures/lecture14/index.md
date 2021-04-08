@@ -1,4 +1,4 @@
-Title: Lecture 14 - Π CNNs basics
+Title: Lecture 14: Π CNNs basics
 Category: lectures
 Slug: lecture14
 Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner

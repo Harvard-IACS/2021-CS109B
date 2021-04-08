@@ -1,19 +1,19 @@
 Title: Schedule
 Slug: schedule
-Date: 2021-04-07
+Date: 2021-04-08
 
 
 |Date (Mon)|Lecture (Mon)|Lecture (Wed)|Lecture (Fri)|Advanced Section (Wed)|Assignment (R:Released Wed - D:Due Wed)||
 |-----|-----|-----|-----|-----|-----|-----|
-|25-Jan|Lecture 1 - Splines, Smoothers, and GAMs (part 1)|Lecture 2 - Splines, Smoothers, and GAMs (part 2)|Lecture 3 - Setup and Review of statsmodels||||
-|1-Feb|Lecture 4 - Splines, Smoothers, and GAMs (part 3)|Lecture 5 - Unsupervised learning, cluster analysis (part 1)|Lecture 5.5 - Smoothers, pyGAM, csaps {NOTE! moved to Thurs because Fri is a wellness day} ||R:HW1 ||
-|8-Feb|Lecture 6 - Unsupervised learning, cluster analysis (part 2)|Lecture 7 - Bayesian statistics (part 1)|Lecture 8 - Clustering in Python (Lab)||R:HW2 - D:HW1||
-|15-Feb|No Lecture (Holiday)|Lecture 9 - Bayesian statistics (part 2)|Lecture 10 - Bayes. PyMC3||R:HW3 - D:HW2||
-|22-Feb|Lecture 11 - Bayesian statistics (part 3)|Lecture 12 - Bayesian statistics (part 4)|Lecture 13 - Hierarchical Models (Lab)||||
-|1-Mar|No Lecture (Wellness Day)|Lecture 14 - _ CNNs basics|Lecture 15 - _ CNNs Pooling and CNNs Structure||R: HW4 - D: HW3||
-|8-Mar|Lecture 16 - _ Backprop max pooling, Receptive Fields and feature map viz|Lecture 17 - _ Saliency maps|Lecture 18 - __ State of the art models (SOTA) and Transfer Learning|[Advanced Section 1: Segmentation Techniques, YOLO, Unet, & M-RCNN]({filename}/a-sections/a-sec01/index.md)|||
-|15-Mar|Lecture 19 - _ RNNs|Lecture 20 - _ GRUs|Lecture 21 - _ LSTMs|[Advanced Section 2: Recurrent Neural Networks and Reservoir Computing]({filename}/a-sections/a-sec02/index.md)|R:HW5 - D:HW4||
-|22-Mar|Lecture 22 - __ Language Modelling|Lecture 23 - __ Language Representations|Lecture 24: NLP 3/4 (Transformers I)|[Advanced Section 3: Word Embeddings]({filename}/a-sections/a-sec03/index.md)|R:HW6 -  D:HW5||
+|25-Jan|[Lecture 1: Splines Smoothers and GAMs (part 1)]({filename}/lectures/lecture01/index.md)|[Lecture 2: Splines Smoothers and GAMs (part 2)]({filename}/lectures/lecture02/index.md)|[Lecture 3: Setup and Review of statsmodels]({filename}/lectures/lecture03/index.md)||||
+|1-Feb|[Lecture 4: Splines Smoothers and GAMs (part 3)]({filename}/lectures/lecture04/index.md)|[Lecture 5: Unsupervised learning cluster analysis (part 1)]({filename}/lectures/lecture05/index.md)|Lecture 5.5: Smoothers pyGAM csaps||R:HW1 ||
+|8-Feb|[Lecture 6: Unsupervised learning cluster analysis (part 2)]({filename}/lectures/lecture06/index.md)|[Lecture 7: Bayesian statistics (part 1)]({filename}/lectures/lecture07/index.md)|[Lecture 8: Clustering in Python (Lab)]({filename}/lectures/lecture08/index.md)||R:HW2 - D:HW1||
+|15-Feb|No Lecture (Holiday)|[Lecture 9: Bayesian statistics (part 2)]({filename}/lectures/lecture09/index.md)|[Lecture 10: Bayes PyMC3]({filename}/lectures/lecture10/index.md)||R:HW3 - D:HW2||
+|22-Feb|[Lecture 11: Bayesian statistics (part 3)]({filename}/lectures/lecture11/index.md)|[Lecture 12: Bayesian statistics (part 4)]({filename}/lectures/lecture12/index.md)|[Lecture 13: Hierarchical Models (Lab)]({filename}/lectures/lecture13/index.md)||||
+|1-Mar|No Lecture (Wellness Day)|[Lecture 14: Π CNNs basics]({filename}/lectures/lecture14/index.md)|[Lecture 15: ⍺ CNNs Pooling and CNNs Structure]({filename}/lectures/lecture15/index.md)||R: HW4 - D: HW3||
+|8-Mar|[Lecture 16: ύ Backprop max pooling Receptive Fields and feature map viz]({filename}/lectures/lecture16/index.md)|[Lecture 17: λ Saliency maps]({filename}/lectures/lecture17/index.md)|[Lecture 18: 𝗈 State of the art models (SOTA) and Transfer Learning]({filename}/lectures/lecture18/index.md)|[Advanced Section 1: Segmentation Techniques]({filename}/a-sections/a-sec01/index.md)| YOLO| Unet| & M-RCNN|||
+|15-Mar|[Lecture 19: ς RNNs]({filename}/lectures/lecture19/index.md)|[Lecture 20: Π GRUs]({filename}/lectures/lecture20/index.md)|Lecture 21: _ LSTMs|[Advanced Section 2: Recurrent Neural Networks and Reservoir Computing]({filename}/a-sections/a-sec02/index.md)|R:HW5 - D:HW4||
+|22-Mar|Lecture 22: __ Language Modelling|Lecture 23 - __ Language Representations|Lecture 24: NLP 3/4 (Transformers I)|[Advanced Section 3: Word Embeddings]({filename}/a-sections/a-sec03/index.md)|R:HW6 -  D:HW5||
 |29-Mar|Lecture 25: NLP 4/4 (Transformers II)|No Lecture (Wellness Day)|Lecture 26: Autoencoder||||
 |5-Apr|Lecture 27: Variational Autoencoder 1/2|Lecture 28: Variational Autoencoder 2/2|Lecture 29: GANS 1/2|[Advanced Section 4: Inference in NN]({filename}/a-sections/a-sec04/index.md)||R:HW7 - D:HW6|
 |12-Apr|Lecture 30: GANS 2/2|Lecture 31: Reinforcement Learning - Basics 1|Lecture 32: Reinforcement Learning - Basics 2|Advanced Section 5: GANS|||

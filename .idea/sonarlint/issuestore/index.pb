@@ -357,8 +357,6 @@ j
 :content/lectures/lecture15/notebook/pooling_scaffold.ipynb,5/1/51769383c9704d0af9675142bc2a10b70d66a01d
 o
 ?content/lectures/lecture15/notebook/pooling_scaffold.ipynb-meta,b/1/b1486f0a440dfb8ba348b3616a000e72e65c6958
-w
-Gcontent/a-sections/a-sec02/notebooks/oldMaterial/pyESN-master/readme.md,5/9/592f817444e716e26a47cb9818204369d704f37b
 l
 <content/lectures/lecture16/notebook/GEC_Occlusion.ipynb-meta,8/5/85c8e6dfb4ae5fd38eef7166dcd4077be0a9e519
 p

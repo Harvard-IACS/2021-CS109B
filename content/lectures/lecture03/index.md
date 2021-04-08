@@ -1,4 +1,4 @@
-Title: Lecture 3 - Setup and Review of statsmodels
+Title: Lecture 3: Setup and Review of statsmodels
 Category: lectures
 Slug: lecture03
 Author: Eleni Kaxiras and Will Claybauch

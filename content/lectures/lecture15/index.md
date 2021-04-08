@@ -1,4 +1,4 @@
-Title: Lecture 15 - ⍺ CNNs Pooling and CNNs Structure
+Title: Lecture 15: ⍺ CNNs Pooling and CNNs Structure
 Category: lectures
 Slug: lecture15
 Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner

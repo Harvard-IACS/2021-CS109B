@@ -1,4 +1,4 @@
-Title: Lecture 17 - λ Saliency maps
+Title: Lecture 17: λ Saliency maps
 Category: lectures
 Slug: lecture17
 Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner
