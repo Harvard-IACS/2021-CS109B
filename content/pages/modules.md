@@ -43,6 +43,6 @@ F. [Genetic Sequencing](https://drive.google.com/drive/folders/1j55QftXWhiT6NNFV
 
 G. [Greek Pottery](https://drive.google.com/drive/folders/1e9sQ9Q56F47q1n5AOlZktCDJnGe-FUtZ?usp=sharing)
 
-H. [Public Health](https://drive.google.com/drive/folders/1HDF09c5KZDF83W0Hj4IdFHqbyr7gW-zj?usp=sharing) [Coming Soon]
+H. [Public Health](https://drive.google.com/drive/folders/1HDF09c5KZDF83W0Hj4IdFHqbyr7gW-zj?usp=sharing)
 
 

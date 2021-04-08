@@ -6,7 +6,7 @@ Date: 2021-04-08
 |Date (Mon)|Lecture (Mon)|Lecture (Wed)|Lecture (Fri)|Advanced Section (Wed)|Assignment (R:Released Wed - D:Due Wed)||
 |-----|-----|-----|-----|-----|-----|-----|
 |25-Jan|[Lecture 1: Splines Smoothers and GAMs (part 1)]({filename}/lectures/lecture01/index.md)|[Lecture 2: Splines Smoothers and GAMs (part 2)]({filename}/lectures/lecture02/index.md)|[Lecture 3: Setup and Review of statsmodels]({filename}/lectures/lecture03/index.md)||||
-|1-Feb|[Lecture 4: Splines Smoothers and GAMs (part 3)]({filename}/lectures/lecture04/index.md)|[Lecture 5: Unsupervised learning cluster analysis (part 1)]({filename}/lectures/lecture05/index.md)|Lecture 5.5: Smoothers pyGAM csaps||R:HW1 ||
+|1-Feb|[Lecture 4: Splines Smoothers and GAMs (part 3)]({filename}/lectures/lecture04/index.md)|[Lecture 5: Unsupervised learning cluster analysis (part 1)]({filename}/lectures/lecture05.5/index.md)|Lecture 5.5: Smoothers pyGAM csaps||R:HW1 ||
 |8-Feb|[Lecture 6: Unsupervised learning cluster analysis (part 2)]({filename}/lectures/lecture06/index.md)|[Lecture 7: Bayesian statistics (part 1)]({filename}/lectures/lecture07/index.md)|[Lecture 8: Clustering in Python (Lab)]({filename}/lectures/lecture08/index.md)||R:HW2 - D:HW1||
 |15-Feb|No Lecture (Holiday)|[Lecture 9: Bayesian statistics (part 2)]({filename}/lectures/lecture09/index.md)|[Lecture 10: Bayes PyMC3]({filename}/lectures/lecture10/index.md)||R:HW3 - D:HW2||
 |22-Feb|[Lecture 11: Bayesian statistics (part 3)]({filename}/lectures/lecture11/index.md)|[Lecture 12: Bayesian statistics (part 4)]({filename}/lectures/lecture12/index.md)|[Lecture 13: Hierarchical Models (Lab)]({filename}/lectures/lecture13/index.md)||||
