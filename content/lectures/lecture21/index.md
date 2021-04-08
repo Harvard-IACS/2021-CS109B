@@ -1,9 +1,9 @@
-Title: Lecture 21 - ⍴ LSTMs
+Title: Lecture 21: ⍴ LSTMs
 Category: lectures
 Slug: lecture21
 Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner
 Date: 2021-03-19
-Tags: ??
+Tags: GRU, LSTM
 
 ## Slides
 - [Lecture 21: LSTMs (PDF)]({attach}presentation/LSTM.pdf)

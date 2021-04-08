@@ -1,9 +1,9 @@
-Title: Lecture 22 - 💬 Language Modelling
+Title: Lecture 22: 💬 Language Modelling NLP 1/4
 Category: lectures
 Slug: lecture22
 Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner
 Date: 2021-03-22
-Tags: ??
+Tags: Language Modeling, Syntax, Semantics, Discourse, Morphology, Syntax
 
 ## Slides
 - [Lecture 22: LSTMs (PDF)]({attach}presentation/Lecture22_Recap_of_CS109.pdf)

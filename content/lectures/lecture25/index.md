@@ -1,4 +1,4 @@
-Title: Lecture 25 - 🤖 Transformers
+Title: Lecture 25: 🤖 (Transformers II) NLP 4/4
 Category: lectures
 Slug: lecture25
 Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner

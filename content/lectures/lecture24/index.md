@@ -1,4 +1,4 @@
-Title: Lecture 24 - 🧠 Attention
+Title: Lecture 24: 🧠 Attention (Transformers I) NLP 3/4
 Category: lectures
 Slug: lecture24
 Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner

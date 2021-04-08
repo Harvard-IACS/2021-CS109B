@@ -17,6 +17,118 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/content/lectures/lecture21/notebook/ex1-scaffold.ipynb-meta">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture22/index.md">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture22/notebook/L22_Ex1_student.ipynb-meta">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture23/index.md">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture23/notebook/L23_Ex1_student.ipynb-meta">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture24/index.md">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture25/index.md">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture25/notebook/L25_Ex1_student.ipynb-meta">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture26/index.md">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture26/notebook/latent_space_challenge.ipynb">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture27/index.md">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture27/notebook/MCMC_FromScratch_Scaffold.ipynb-meta">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture27/notebook/mcmc_neural_network_scaffold.ipynb-meta">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture28/index.md">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture28/notebook/FromScratch_VAE.ipynb-meta">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/content/lectures/lecture28/notebook/FromScratch_simplified.ipynb-meta">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/content/pages/schedule.md">
           <value>
             <Attribute>
