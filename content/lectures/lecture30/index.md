@@ -1,5 +1,10 @@
-Title: Lecture 30: GANS 2/2
+Title: Lecture 30:
 Category: lectures
+Date: 2021-01-25
+Author: 
 Slug: lecture30
-Author: ??
-Date: 1900-01-01
+Tags: ADD TAGS HERE
+
+
+## Slides
+<!-- - [PDF | Lecture 1: Description]({attach}presentation/Lecture1_Data.pdf) -->
