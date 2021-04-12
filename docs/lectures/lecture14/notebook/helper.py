@@ -1,4 +1,5 @@
 # Importing libraries
+import numpy as np
 import tensorflow as tf
 from numpy.random import seed
 
@@ -6,6 +7,8 @@ seed(1)
 tf.random.set_seed(1)
 
 from matplotlib import pyplot as plt
+from keras.preprocessing.image import load_img
+from PIL import Image
 
 
 # Define a function to plot the train and validation accuracy and loss

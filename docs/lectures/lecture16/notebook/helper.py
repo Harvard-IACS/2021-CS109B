@@ -1,8 +1,18 @@
+import os
+import random
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from tensorflow.keras import backend as K
 from tensorflow.keras.optimizers import SGD
+from tensorflow.keras.datasets import cifar10
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.applications import MobileNet
+from sklearn.model_selection import train_test_split
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.nn import sparse_softmax_cross_entropy_with_logits
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.applications.mobilenet import preprocess_input
 
 
 def load_dataset():

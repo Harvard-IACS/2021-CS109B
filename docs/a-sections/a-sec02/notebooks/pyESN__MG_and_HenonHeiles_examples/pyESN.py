@@ -213,7 +213,7 @@ class ESN():
         pred_train = self._unscale_teacher(self.out_activation(
             np.dot(extended_states, self.W_out.T)))
         if not self.silent:
-            print(np.sqrt(np.mean((pred_train - outputs) ** 2)))
+            print(np.sqrt(np.mean((pred_train - outputs)**2)))
         return pred_train
 
     def predict(self, inputs, continuation=True):
@@ -248,7 +248,7 @@ class ESN():
 
         for n in range(n_samples):
             states[
-            n + 1, :] = self._update(states[n, :], inputs[n + 1, :], outputs[n, :])
+                n + 1, :] = self._update(states[n, :], inputs[n + 1, :], outputs[n, :])
             outputs[n + 1, :] = self.out_activation(np.dot(self.W_out,
                                                            np.concatenate([states[n + 1, :], inputs[n + 1, :]])))
 

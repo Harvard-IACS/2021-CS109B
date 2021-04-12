@@ -31,7 +31,7 @@ ol {
 
 A. [Ancient Texts](https://drive.google.com/drive/folders/1K6tNwWx1V6iFAq481MxgI7l5qHVAuRLo?usp=sharing)
 
-B. [Astrophysics](https://drive.google.com/drive/folders/1N8YxhWWVNnIfq-i4sKo6fDpTx0dSGWFx?usp=sharing) [Coming Soon]
+B. <strike>[Astrophysics](https://drive.google.com/drive/folders/1N8YxhWWVNnIfq-i4sKo6fDpTx0dSGWFx?usp=sharing)</strike> [Cancelled]
 
 C. [Law Citations](https://drive.google.com/drive/folders/1qckGwGvuZimviwCfesFMts8vZF8VuTC0?usp=sharing)
 
