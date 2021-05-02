@@ -1,3 +1,3 @@
 
-Dpython:S1481'"'Remove the unused local variable "col".(äñÁìþÿÿÿÿ
-°python:S15154"’Add a parameter to the parent lambda function and use variable "i" as its default value; The value of "i" might change at the next loop iteration.(‹Œõ„ùÿÿÿÿ
+Dpython:S1481*"'Remove the unused local variable "col".(äñÁìþÿÿÿÿ
+°python:S15157"’Add a parameter to the parent lambda function and use variable "i" as its default value; The value of "i" might change at the next loop iteration.(‹Œõ„ùÿÿÿÿ

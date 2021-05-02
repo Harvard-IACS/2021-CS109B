@@ -1,6 +1,6 @@
 Title: Schedule
 Slug: schedule
-Date: 2021-04-12
+Date: 2021-05-02
 
 
 |Date (Mon)|Lecture (Mon)|Lecture (Wed)|Lecture (Fri)|Advanced Section (Wed)|Assignment (R:Released Wed - D:Due Wed)||
@@ -17,7 +17,7 @@ Date: 2021-04-12
 |29-Mar|[Lecture 25: 🤖 (Transformers II) NLP 4/4]({filename}/lectures/lecture25/index.md)|No Lecture (Wellness Day)|[Lecture 26: Autoencoder]({filename}/lectures/lecture26/index.md)||||
 |5-Apr|[Lecture 27: Variational Autoencoder 1/2]({filename}/lectures/lecture27/index.md)|[Lecture 28: Variational Autoencoder 2/2]({filename}/lectures/lecture28/index.md)|[Lecture 29: GANS 1/2]({filename}/lectures/lecture29/index.md)|[Advanced Section 4: Inference in NN]({filename}/a-sections/a-sec04/index.md)||R:HW7 - D:HW6|
 |12-Apr|[Lecture 30: GANS 2/2]({filename}/lectures/lecture30/index.md)|[Lecture 31: Reinforcement Learning - Basics 1]({filename}/lectures/lecture31/index.md)|[Lecture 32: Reinforcement Learning - Basics 2]({filename}/lectures/lecture32/index.md)|Advanced Section 5: GANS|||
-|19-Apr|[Lecture 33: Deep Reinforcement Learning]({filename}/lectures/lecture33/index.md)|[Module: Lecture Domain]({filename}/lectures/lecture35/index.md)|[Module: Problem Background]({filename}/lectures/lecture35/index.md)|Advanced Section:6 Reinforcement Learning|D:HW7||
+|19-Apr|[Lecture 33: Deep Reinforcement Learning]({filename}/lectures/lecture33/index.md)|[Module: Lecture Domain]({filename}/lectures/lecture34/index.md)|[Module: Problem Background]({filename}/lectures/lecture34/index.md)|Advanced Section:6 Reinforcement Learning|D:HW7||
 |26-Apr|||||||
 |3-May||||Reading Period|||
-|10-May||[Module: Final Presentations]({filename}/lectures/lecture35/index.md)||Finals Week|||
+|10-May||[Module: Final Presentations]({filename}/lectures/lecture34/index.md)||Finals Week|||

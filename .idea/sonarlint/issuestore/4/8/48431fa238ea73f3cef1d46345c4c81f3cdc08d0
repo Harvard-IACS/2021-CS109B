@@ -1,8 +1,8 @@
 
-GWeb:ImgWithoutAltCheckD"%Add an "alt" attribute to this image.(Æœ¢Ã
-HWeb:BoldAndItalicTagsCheckx"Replace this <i> tag by <em>.(¸²êáıÿÿÿÿ
-IWeb:BoldAndItalicTagsCheck"Replace this <i> tag by <em>.(È·è¿øÿÿÿÿ
-RWeb:UnsupportedTagsInHtml5CheckÓ"&Remove this deprecated "font" element.(æêšĞ
-WWeb:UnsupportedTagsInHtml5Checkï"&Remove this deprecated "font" element.(ÖëÕ‰ÿÿÿÿÿ
-WWeb:UnsupportedTagsInHtml5Check­"&Remove this deprecated "font" element.(ÖëÕ‰ÿÿÿÿÿ
+HWeb:BoldAndItalicTagsCheck{"Replace this <i> tag by <em>.(¸²êáıÿÿÿÿ
+WWeb:UnsupportedTagsInHtml5Check°"&Remove this deprecated "font" element.(ÖëÕ‰ÿÿÿÿÿ
+IWeb:BoldAndItalicTagsCheck’"Replace this <i> tag by <em>.(È·è¿øÿÿÿÿ
+WWeb:UnsupportedTagsInHtml5Checkò"&Remove this deprecated "font" element.(ÖëÕ‰ÿÿÿÿÿ
 CWeb:PageWithoutTitleCheck"Add a <title> tag to this page.(ñ§½W
+GWeb:ImgWithoutAltCheckD"%Add an "alt" attribute to this image.(Æœ¢Ã
+RWeb:UnsupportedTagsInHtml5CheckÖ"&Remove this deprecated "font" element.(æêšĞ
