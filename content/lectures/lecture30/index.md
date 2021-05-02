@@ -1,10 +1,13 @@
-Title: Lecture 30:
+Title: Lecture 30: ⍺ GANs DOS
 Category: lectures
-Date: 2021-01-25
-Author: 
 Slug: lecture30
-Tags: ADD TAGS HERE
-
+Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner
+Date: 2021-04-12
+Tags: GANs, Modal collapse, Evaluating GANs, TSTR
 
 ## Slides
-<!-- - [PDF | Lecture 1: Description]({attach}presentation/Lecture1_Data.pdf) -->
+- [Lecture 30: GANS part 2 - compressed (PDF)]({attach}presentation/cs109b_gans_2.pdf)
+- [Lecture 30: GANS part 2 - compressed (PPT)]({attach}presentation/cs109b_gans_2.pptx)
+
+## Exercises
+- [Lecture 30: Fréchet distance (numpy) (Notebook)]({filename}notebook/fid.ipynb)

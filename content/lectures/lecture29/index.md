@@ -1,10 +1,14 @@
-Title: Lecture 29:
+Title: Lecture 29: π GANs
 Category: lectures
-Date: 2021-01-25
-Author: 
 Slug: lecture29
-Tags: ADD TAGS HERE
-
+Author: Pavlos Protopapas, Mark Glickman, and Chrris Tanner
+Date: 2021-04-09
+Tags: GANs, generative model, DCGAN
 
 ## Slides
-<!-- - [PDF | Lecture 1: Description]({attach}presentation/Lecture1_Data.pdf) -->
+- [Lecture 29: GANS Basics - compressed (PDF)]({attach}presentation/cs109b_gans_1_c.pdf)
+- [Lecture 29: GANS Basics (PDF)]({attach}presentation/cs109b_gans_1.pdf)
+- [Lecture 29: GANS Basics (PPT)]({attach}presentation/cs109b_gans_1.pptx)
+
+## Exercises
+- [Lecture 29: Generative Adversarial Networks (Notebook)]({filename}notebook/gan_edexercise.ipynb)

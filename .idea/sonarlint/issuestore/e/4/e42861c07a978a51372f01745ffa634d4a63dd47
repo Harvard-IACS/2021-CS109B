@@ -1,16 +1,16 @@
 
-CWeb:PageWithoutTitleCheck"Add a <title> tag to this page.(ñ§½W
-h Web:TableHeaderHasIdOrScopeCheck";Add either an 'id' or a 'scope' attribute to this <th> tag.(‹ŸÌó
-HWeb:BoldAndItalicTagsCheck{"Replace this <i> tag by <em>.(¸²êáıÿÿÿÿ
 MWeb:ImgWithoutAltCheckÆ"%Add an "alt" attribute to this image.(£ç¾úÿÿÿÿ
-IWeb:TableWithoutCaptionCheckŠ" Add a description to this table.(°©î†
-g Web:TableHeaderHasIdOrScopeCheck£";Add either an 'id' or a 'scope' attribute to this <th> tag.(Œ‰é
+h Web:TableHeaderHasIdOrScopeCheck";Add either an 'id' or a 'scope' attribute to this <th> tag.(‹ŸÌó
 m Web:TableHeaderHasIdOrScopeCheck";Add either an 'id' or a 'scope' attribute to this <th> tag.(—›¯¶ûÿÿÿÿ
-h Web:TableHeaderHasIdOrScopeCheck";Add either an 'id' or a 'scope' attribute to this <th> tag.(É“š¼
-m Web:TableHeaderHasIdOrScopeCheck";Add either an 'id' or a 'scope' attribute to this <th> tag.(ÔÖûÿÿÿÿ
-h Web:TableHeaderHasIdOrScopeCheck¨";Add either an 'id' or a 'scope' attribute to this <th> tag.(‹„ Á
-IWeb:BoldAndItalicTagsCheck"Replace this <i> tag by <em>.(È·è¿øÿÿÿÿ
-m Web:TableHeaderHasIdOrScopeCheck™";Add either an 'id' or a 'scope' attribute to this <th> tag.(ò‡Ò“ıÿÿÿÿ
-GWeb:ImgWithoutAltCheckD"%Add an "alt" attribute to this image.(Æœ¢Ã
-h Web:TableHeaderHasIdOrScopeCheck”";Add either an 'id' or a 'scope' attribute to this <th> tag.(‚÷‘¤
 HWeb:ImgWithoutAltCheckÌ"%Add an "alt" attribute to this image.(Ÿ¾£
+IWeb:BoldAndItalicTagsCheck"Replace this <i> tag by <em>.(È·è¿øÿÿÿÿ
+IWeb:TableWithoutCaptionCheckŠ" Add a description to this table.(°©î†
+h Web:TableHeaderHasIdOrScopeCheck¨";Add either an 'id' or a 'scope' attribute to this <th> tag.(‹„ Á
+HWeb:BoldAndItalicTagsCheck{"Replace this <i> tag by <em>.(¸²êáıÿÿÿÿ
+m Web:TableHeaderHasIdOrScopeCheck";Add either an 'id' or a 'scope' attribute to this <th> tag.(ÔÖûÿÿÿÿ
+g Web:TableHeaderHasIdOrScopeCheck£";Add either an 'id' or a 'scope' attribute to this <th> tag.(Œ‰é
+CWeb:PageWithoutTitleCheck"Add a <title> tag to this page.(ñ§½W
+GWeb:ImgWithoutAltCheckD"%Add an "alt" attribute to this image.(Æœ¢Ã
+h Web:TableHeaderHasIdOrScopeCheck";Add either an 'id' or a 'scope' attribute to this <th> tag.(É“š¼
+m Web:TableHeaderHasIdOrScopeCheck™";Add either an 'id' or a 'scope' attribute to this <th> tag.(ò‡Ò“ıÿÿÿÿ
+h Web:TableHeaderHasIdOrScopeCheck”";Add either an 'id' or a 'scope' attribute to this <th> tag.(‚÷‘¤
