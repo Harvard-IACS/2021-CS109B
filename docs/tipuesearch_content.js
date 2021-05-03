@@ -51,7 +51,7 @@ var tipuesearch = {
         "url": "lectures/lecture31/notebook/"
     }, {
         "title": "Lecture 30: ⍺ GANs DOS",
-        "text": "Slides Lecture 30: GANS part 2 - compressed (PDF) Lecture 30: GANS part 2 - compressed (PPT) Exercises Lecture 30: Fréchet distance (numpy) (Notebook)",
+        "text": "Slides Lecture 30: GANS part 2 - compressed (PDF) Exercises Lecture 30: Fréchet distance (numpy) (Notebook)",
         "tags": "lectures",
         "url": "lectures/lecture30/"
     }, {
@@ -61,7 +61,7 @@ var tipuesearch = {
         "url": "lectures/lecture30/notebook1/"
     }, {
         "title": "Lecture 29: π GANs",
-        "text": "Slides Lecture 29: GANS Basics - compressed (PDF) Lecture 29: GANS Basics (PDF) Lecture 29: GANS Basics (PPT) Exercises Lecture 29: Generative Adversarial Networks (Notebook)",
+        "text": "Slides Lecture 29: GANS Basics - compressed (PDF) Lecture 29: GANS Basics (PDF) Exercises Lecture 29: Generative Adversarial Networks (Notebook)",
         "tags": "lectures",
         "url": "lectures/lecture29/"
     }, {

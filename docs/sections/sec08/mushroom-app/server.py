@@ -27,6 +27,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # Load a model from disk
 best_model = "models/mobilenetv2_train_baseTrue_1618955507.hdf5"
 prediction_model = tf.keras.models.load_model(best_model)
@@ -38,7 +39,6 @@ index2label = dict((index, name) for index, name in enumerate(label_names))
 # Mount frontend app
 app.mount("/app", StaticFiles(directory="app"), name="app")
 
-
 # Routes
 @app.get(
     "/api",
@@ -49,7 +49,6 @@ async def get_index():
     return {
         "message": "Welcome to the API Service"
     }
-
 
 # Additional routers here
 @app.get(
@@ -79,7 +78,6 @@ async def get_test_prediction(
         "prediction": prediction.tolist(),
         "accuracy": round(np.max(prediction) * 100, 2)
     }
-
 
 @app.post(
     "/api/predict_file",

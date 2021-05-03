@@ -7,7 +7,6 @@ Tags: GANs, Modal collapse, Evaluating GANs, TSTR
 
 ## Slides
 - [Lecture 30: GANS part 2 - compressed (PDF)]({attach}presentation/cs109b_gans_2.pdf)
-- [Lecture 30: GANS part 2 - compressed (PPT)]({attach}presentation/cs109b_gans_2.pptx)
 
 ## Exercises
 - [Lecture 30: Fréchet distance (numpy) (Notebook)]({filename}notebook/fid.ipynb)

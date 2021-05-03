@@ -12,7 +12,6 @@ threads = []
 # Initial queue
 queue = Queue(0)
 
-
 class Downloader(threading.Thread):
     def __init__(self, queue, thread):
         threading.Thread.__init__(self)
@@ -60,7 +59,7 @@ def download_google_images(search_term_list=["crimini mushroom", "oyster mushroo
 
     # Chrome Options
     options = webdriver.ChromeOptions()
-    # options.headless = True
+    #options.headless = True
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--ignore-ssl-errors')
 
@@ -74,7 +73,7 @@ def download_google_images(search_term_list=["crimini mushroom", "oyster mushroo
         # Go to Google Images
         images_links = browser.find_elements_by_xpath('//a[contains(@class, "hide-focus-ring")]')
         for link in images_links:
-            # print(link)
+            #print(link)
             print(link.get_attribute("href"))
 
         # Wait
@@ -123,7 +122,7 @@ def download_google_images(search_term_list=["crimini mushroom", "oyster mushroo
                 except e:
                     print("Error getting url")
                 if url.startswith('http') and not url.startswith('https://encrypted-tbn0.gstatic.com'):
-                    # print("Found image url:", url)
+                    #print("Found image url:", url)
                     imgs_urls.add(url)
 
         print('Number of image urls found:', len(imgs_urls))
